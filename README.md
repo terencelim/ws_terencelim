@@ -1,2 +1,2 @@
-# terencelim.github.io
+# www.terencelim.com
 Static pages
