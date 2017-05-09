@@ -36,7 +36,8 @@ body {
   /*color: #BABABA;*/
   color: #AAA;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background: #E9E9E9 url('../images/white_paper_seamless_pattern_opt.png') repeat left top;
+  /*background: #E9E9E9 url('../images/white_paper_seamless_pattern_opt.png') repeat left top;*/
+  background: #E9E9E9 url('../images/pattern_1.png') repeat center center;  
 }
 
 h1 {
