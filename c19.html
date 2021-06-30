@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>COVID-19 NSW Cases</title>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/cs-style.css">
+  </head>
+  <body>
+    <h2>COVID-19 NSW Cases by Suburb</h2>
+    <table class='table borderless'>
+      <tr>
+        <td colspan="2"><label for="datasource">Data Source [ File Date: <span id="id01"></span> ]</label></td>
+      </tr>
+      <tr>
+        <td style="width: auto;">
+          <input type="text" class="form-control" id="location" aria-describedby="loadHelp" value="https://data.nsw.gov.au/data/dataset/nsw-covid-19-case-locations/resource/f3a28eed-8c2a-437b-8ac1-2dab3cf760f9" placeholder="Enter Data Source">
+        </td>
+        <td style="width: 188px;">
+          <button type="button" class="btn btn-primary" id="loadData" onclick="javascript:test();">Get Latest Case Data</button>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <small id="emailHelp" class="form-text text-muted">Data Program: https://data.nsw.gov.au/data/dataset/nsw-covid-19-case-locations/resource/f3a28eed-8c2a-437b-8ac1-2dab3cf760f9</small>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2"><label for="datasource">Search by Suburb</label></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <input type="text" class="form-control" id="suburb" onkeyup="javascript:checkSuburb();" placeholder="Enter Suburb">
+        </td>
+      </tr>
+    </table>
+
+    <!-- <input type="text" id="location" value="https://data.nsw.gov.au/data/dataset/0a52e6c1-bc0b-48af-8b45-d791a6d8e289/resource/f3a28eed-8c2a-437b-8ac1-2dab3cf760f9/download/covid-case-locations-20210630-1623.json" style="width:350px;"> -->
+    <!-- onclick="javascript:loadData(document.getElementById('location').value);" -->
+    <div id="id02"></div>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.min.js"></script> -->
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="./js/cs-script.js"></script>
+  </body>
+</html>
