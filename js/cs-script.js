@@ -33,8 +33,8 @@ function scrapeHTML(html) {
   loadData(jsonURL, loadJSON);  
 }
 
-var tableHead = "<table class='table table-sm table-striped fixed_header'><thead class='thead-dark'><tr><th scope='col' class='thSuburb'>Suburb</th><th scope='col' class='thVenue'>Venue</th><th scope='col' class='thAddress'>Address</th><th scope='col' class='thDate'>Date</th><th scope='col' class='thTime'>Time</th><th scope='col' class='thAlert'>Alert</th><th scope='col' class='thAdvice'>Health Advice</th></tr></thead><tbody>";
-var tableBody = "<tr><td class='tdSuburb'>{{suburb}}</td><td class='tdVenue'>{{venue}}</td><td class='tdAddress'>{{address}}</td><td class='tdDate'>{{date}}</td><td class='tdTime'>{{time}}</td><td class='tdAlert'>{{alert}}</td><td class='tdAdvice'>{{advice}}</td></tr>";
+var tableHead = "<table class='table table-sm table-striped fixed_header'><thead class='thead-dark'><tr><th scope='col' class='thSuburb'>Suburb</th><th scope='col' class='thVenue'>Venue</th><th scope='col' class='thAddress'>Address</th><th scope='col' class='thDate'>Date</th><th scope='col' class='thTime'>Time</th><th scope='col' class='thUpdate'>Last Updated</th><th scope='col' class='thAlert'>Alert</th><th scope='col' class='thAdvice'>Health Advice</th></tr></thead><tbody>";
+var tableBody = "<tr><td class='tdSuburb'>{{suburb}}</td><td class='tdVenue'>{{venue}}</td><td class='tdAddress'>{{address}}</td><td class='tdDate'>{{date}}</td><td class='tdTime'>{{time}}</td><td class='tdUpdate'>{{lastupdate}}</td><td class='tdAlert'>{{alert}}</td><td class='tdAdvice'>{{advice}}</td></tr>";
 var tableFoot = "</tbody></table>";
 
 function findInfo(dMonitor) {
@@ -58,6 +58,17 @@ function findInfo(dMonitor) {
   document.getElementById("id02").innerHTML = out;
 }
 
+function formatDate(dateString) {
+  // const months = ["JAN", "FEB", "MAR","APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+  const monthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const dayName = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  var d = new Date(dateString);
+  // var datestring = d.getFullYear() + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2) + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+  // var datestring = d.getFullYear() + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2) + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2);
+  var datestring = dayName[d.getDay()] + " " + ("0" + d.getDate()).slice(-2) + " " + monthName[d.getMonth()] + " " + d.getFullYear();
+  return datestring;
+}
+
 function findInfo2(dMonitor) {
   var out = "";
   var i;
@@ -69,8 +80,9 @@ function findInfo2(dMonitor) {
       var tmpTableRow = tableBody.replace("{{suburb}}", dMonitor[i].Suburb);
           tmpTableRow = tmpTableRow.replace("{{venue}}", dMonitor[i].Venue);
           tmpTableRow = tmpTableRow.replace("{{address}}", dMonitor[i].Address);
-          tmpTableRow = tmpTableRow.replace("{{date}}", dMonitor[i]['Last updated date']);
+          tmpTableRow = tmpTableRow.replace("{{date}}", formatDate(dMonitor[i].Date));
           tmpTableRow = tmpTableRow.replace("{{time}}", dMonitor[i].Time);
+          tmpTableRow = tmpTableRow.replace("{{lastupdate}}", formatDate(dMonitor[i]['Last updated date']));
           tmpTableRow = tmpTableRow.replace("{{alert}}", dMonitor[i].Alert);
           tmpTableRow = tmpTableRow.replace("{{advice}}", dMonitor[i].HealthAdviceHTML);
       out += tmpTableRow;
