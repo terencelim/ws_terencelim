@@ -10,14 +10,14 @@
     <h2>COVID-19 NSW Cases by Suburb</h2>
     <table class='table borderless'>
       <tr>
-        <td colspan="2"><label for="datasource">Data Source [ File Date: <span id="id01"></span> ]</label></td>
+        <td colspan="2"><label for="datasource">Data Source [ <span class="casedata">File Date: <span id="id01"></span></span> | <span class="casedata">Total Cases: <span id="id03"></span></span> ]</label></td>
       </tr>
       <tr>
         <td style="width: auto;">
           <input type="text" class="form-control" id="location" aria-describedby="loadHelp" value="https://data.nsw.gov.au/data/dataset/nsw-covid-19-case-locations/resource/f3a28eed-8c2a-437b-8ac1-2dab3cf760f9" placeholder="Enter Data Source">
         </td>
         <td style="width: 188px;">
-          <button type="button" class="btn btn-primary" id="loadData" onclick="javascript:test();">Get Latest Case Data</button>
+          <button type="button" class="btn btn-danger" id="loadData" onclick="javascript:test();">Get Latest Case Data</button>
         </td>
       </tr>
       <tr>
