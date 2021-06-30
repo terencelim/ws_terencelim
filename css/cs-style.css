@@ -78,10 +78,12 @@ body {
 } */
 
 .fixed_header .thSuburb, .fixed_header .tdSuburb {
+  text-align: left;
   width: 150px;
 }
 
 .fixed_header .thVenue, .fixed_header .tdVenue {
+  text-align: left;
   width: 200px;
 }
 
@@ -89,13 +91,20 @@ body {
   width: 200px;
 }
 
-.fixed_header .thDate, .fixed_header .tdDate {
-  width: 200px;
+.fixed_header .thDate, .fixed_header .tdDate,
+.fixed_header .thUpdate, .fixed_header .tdUpdate {
+  text-align: center;
+  width: 150px;
 }
 
 .fixed_header .thTime, .fixed_header .tdTime {
-  width: 200px;
+  text-align: center;
+  width: 150px;
 }
+
+/* .fixed_header .thUpdate, .fixed_header .tdUpdate {
+  width: 200px;
+} */
 
 .fixed_header .thAlert, .fixed_header .tdAlert {
   width: 200px;
