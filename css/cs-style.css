@@ -79,26 +79,31 @@ body {
 
 .fixed_header .thSuburb, .fixed_header .tdSuburb {
   text-align: left;
+  vertical-align: middle;
   width: 150px;
 }
 
 .fixed_header .thVenue, .fixed_header .tdVenue {
   text-align: left;
+  vertical-align: middle;
   width: 200px;
 }
 
 .fixed_header .thAddress, .fixed_header .tdAddress {
+  vertical-align: middle;
   width: 200px;
 }
 
 .fixed_header .thDate, .fixed_header .tdDate,
 .fixed_header .thUpdate, .fixed_header .tdUpdate {
   text-align: center;
+  vertical-align: middle;
   width: 150px;
 }
 
 .fixed_header .thTime, .fixed_header .tdTime {
   text-align: center;
+  vertical-align: middle;
   width: 150px;
 }
 
@@ -107,10 +112,12 @@ body {
 } */
 
 .fixed_header .thAlert, .fixed_header .tdAlert {
+  vertical-align: middle;
   width: 200px;
 }
 
 .fixed_header .thAdvice, .fixed_header .tdAdvice {
+  vertical-align: middle;
   width: auto;
 }
 
