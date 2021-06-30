@@ -41,7 +41,7 @@ body {
   color: green;
 }
 
-.fixed_header {
+/* .fixed_header {
   table-layout: fixed;
   border-collapse: collapse;
 }
@@ -59,7 +59,7 @@ body {
 
 .table>:not(caption)>*>* {
   border-bottom-width: 0px;
-}
+} */
 /* .fixed_header thead {
   background: black;
   color: #fff;
