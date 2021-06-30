@@ -92,6 +92,7 @@ function loadJSON(jsonString) {
   var i;
   var dMonitor = arr.data.monitor;  
   document.getElementById("id01").innerHTML = arr.date;
+  document.getElementById("id03").innerHTML = dMonitor.length;
   findInfo2(dMonitor);
 // Address: "1/34-36 Ralph Street"
 // Alert: "Get tested immediately and self-isolate for 14 days"
