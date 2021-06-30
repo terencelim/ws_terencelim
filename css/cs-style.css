@@ -2,9 +2,14 @@ body {
   padding: 15px;
 }
 
-#id01 {
+.casedata {
   font-weight: bold;
-  color: red;
+  color: maroon;
+}
+
+#id01, #id03 {
+  color: orangered;
+  text-decoration: underline;
 }
 
 .labels {
