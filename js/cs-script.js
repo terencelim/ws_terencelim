@@ -34,7 +34,7 @@ function scrapeHTML(html) {
 }
 
 var tableHead = "<table class='table table-sm table-striped fixed_header'><thead class='thead-dark'><tr><th scope='col' class='thSuburb'>Suburb</th><th scope='col' class='thVenue'>Venue</th><th scope='col' class='thAddress'>Address</th><th scope='col' class='thDate'>Date</th><th scope='col' class='thTime'>Time</th><th scope='col' class='thUpdate'>Last Updated</th><th scope='col' class='thAlert'>Alert</th><th scope='col' class='thAdvice'>Health Advice</th></tr></thead><tbody>";
-var tableBody = "<tr><td class='tdSuburb'>{{suburb}}</td><td class='tdVenue'>{{venue}}</td><td class='tdAddress'>{{address}}</td><td class='tdDate'>{{date}}</td><td class='tdTime'>{{time}}</td><td class='tdUpdate'>{{lastupdate}}</td><td class='tdAlert'>{{alert}}</td><td class='tdAdvice'>{{advice}}</td></tr>";
+var tableBody = "<tr><td class='tdSuburb' title='Suburb'>{{suburb}}</td><td class='tdVenue' title='Venue'>{{venue}}</td><td class='tdAddress' title='Address'>{{address}}</td><td class='tdDate' title='Date'>{{date}}</td><td class='tdTime' title='Time'>{{time}}</td><td class='tdUpdate' title='Last Update'>{{lastupdate}}</td><td class='tdAlert' title='Alert'>{{alert}}</td><td class='tdAdvice' title='Health Advice'>{{advice}}</td></tr>";
 var tableFoot = "</tbody></table>";
 
 function findInfo(dMonitor) {
