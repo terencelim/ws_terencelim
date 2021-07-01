@@ -7,7 +7,7 @@ body {
   color: maroon;
 }
 
-#id01, #id03 {
+#id01, #id03, #id04 {
   color: orangered;
   text-decoration: underline;
 }
@@ -123,4 +123,29 @@ body {
 
 .borderless td, .borderless th {
   border: none;
+}
+
+.dInput {
+  width: 300px; 
+  vertical-align: middle;
+}
+
+.dInput.dResults {
+  width: auto; 
+}
+
+.btn-load,.btn-suburb {
+  font-weight: bold;
+}
+
+.btn-load {
+  width: 300px;
+}
+
+.btn-suburb {
+  /* color: #0055bb; */
+  /* color: black; */
+  font-size: .75rem;
+  margin: 4px 4px;
+  padding: 2px 6px;
 }
