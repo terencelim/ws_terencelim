@@ -59,7 +59,7 @@
     </div>
     <div class="mb-3">
         <label for="dob" class="form-label">Results</label>
-        <textarea id="results" class="form-control" rows="25" cols="50" style="font-family: Andale Mono, monospace;"></textarea>
+        <textarea id="results" class="form-control" rows="25" cols="50" style="font-family: Andale Mono, monospace; font-size: 10pt;"></textarea>
     </div>
     <button type="button" class="btn btn-danger" onclick="document.getElementById('results').value='';">Clear Results</button>
     <button type="button" class="btn btn-danger" onclick="listAllSigns()">List All Signs</button>
@@ -1240,7 +1240,8 @@
   }
   };
   
-  var strSep1 = "x".repeat(80);
+  // var strSep1 = "x".repeat(80);
+  var strSep1 = "x".repeat(56);
 
   function formatDate(date) {
       var d = new Date(date),
