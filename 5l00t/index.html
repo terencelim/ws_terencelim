@@ -33,6 +33,7 @@
     -->
 
     <script>
+        // https://stackoverflow.com/questions/7346563/loading-local-json-file
         // required use of an anonymous callback,
         // as .open() will NOT return a value but simply returns undefined in asynchronous mode!
 
@@ -40,7 +41,7 @@
         const xObj = new XMLHttpRequest();
         xObj.overrideMimeType("application/json");
         // 1. replace './data.json' with the local path of your file
-        xObj.open('GET', './students.json', true);
+        xObj.open('GET', './data.json', true);
         xObj.onreadystatechange = () => {
             if (xObj.readyState === 4 && xObj.status === 200) {
                 // 2. call your callback function
