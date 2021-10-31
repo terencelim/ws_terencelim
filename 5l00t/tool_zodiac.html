@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Chinese Zodiac</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+  
+<div class="container">
+    <h2>Chinese Zodiac</h2>
+    <p>
+        <a href="https://en.wikipedia.org/wiki/Chinese_zodiac" target="_blank">https://en.wikipedia.org/wiki/Chinese_zodiac</a>
+    </p>
+    <!-- <div class="mb-3">
+        <label for="dob" class="form-label">Date of Birth</label>
+        <input type="date" class="form-control" value="" id="dob" size="15" onchange="valDOB();">
+    </div> -->
+    
+    <h2>By DOB</h2>
+    <div class="mb-3">
+        <label for="sliderYear" class="form-label">Year [ <span id="retYear"></span> ] </label>
+        <input type="range" class="form-range" value="2021" min="1924" max="2044" id="sliderYear" oninput="updateDOBSlide()">
+    </div>
+    <div class="mb-3">
+        <label for="sliderMonth" class="form-label">Month [ <span id="retMonth"></span> ] </label>
+        <input type="range" class="form-range" value="0" min="0" max="11" id="sliderMonth" oninput="updateDOBSlide()">
+    </div>
+    <div class="mb-3">
+        <label for="sliderDay" class="form-label">Day [ <span id="retDay"></span> ] </label>
+        <input type="range" class="form-range" value="1" min="1" max="31" id="sliderDay" onchange="updateDOBSlide()" oninput="updateDOBSlide()">
+    </div>
+
+    <h2>By Age</h2>
+    <div class="mb-3">
+        <label for="sliderAge" class="form-label">Age [ <span id="retAge"></span> ] </label>
+        <!-- <input type="number" class="form-control" value="" id="age" size="15" onblur="valAge(event);"> -->
+        <!-- <input type="range" class="form-range" value="25" min="18" max="150" id="sliderAge" size="15" oninput="valAge(event);"> -->
+        <input type="range" class="form-range" value="25" min="18" max="96" id="sliderAge" size="15" oninput="valAge();">
+    </div>
+
+    <div class="mb-3">
+        <label for="dob" class="form-label">Sign</label>
+        <select id="sign" class="form-select" size="12" onchange="valSign()">
+            <option value="Rat" selected>Rat</option>
+            <option value="Ox">Ox</option>
+            <option value="Tiger">Tiger</option>
+            <option value="Rabbit">Rabbit</option>
+            <option value="Dragon">Dragon</option>
+            <option value="Snake">Snake</option>
+            <option value="Horse">Horse</option>
+            <option value="Goat">Goat</option>
+            <option value="Monkey">Monkey</option>
+            <option value="Rooster">Rooster</option>
+            <option value="Dog">Dog</option>
+            <option value="Pig">Pig</option>
+          </select>
+    </div>
+    <div class="mb-3">
+        <label for="dob" class="form-label">Results</label>
+        <textarea id="results" class="form-control" rows="25" cols="50" style="font-family: Andale Mono, monospace; font-size: 9pt;"></textarea>
+    </div>
+    <button type="button" class="btn btn-danger" onclick="document.getElementById('results').value='';">Clear Results</button>
+    <button type="button" class="btn btn-danger" onclick="listAllSigns()">List All Signs</button>
+</div>
+
+
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+  <script>
+  var zodiacMatch = {
+  "Rat": {
+    "best_match": "Dragon, Monkey",
+    "favorable_match": "Ox",
+    "average_match": "Pig, Rat, Tiger, Rabbit, Dog, Snake",
+    "bad_match": "Snake, Rooster, Horse",
+    "harmful_match": "Goat"
+  },
+  "Ox": {
+    "best_match": "Snake, Rooster",
+    "favorable_match": "Rat",
+    "average_match": "Pig, Ox, Monkey, Dog, Rabbit",
+    "bad_match": "Tiger, Dragon, Goat",
+    "harmful_match": "Horse"
+  },
+  "Tiger": {
+    "best_match": "Horse, Dog",
+    "favorable_match": "Pig",
+    "average_match": "Tiger, Rabbit, Dragon, Rooster, Rat, Goat",
+    "bad_match": "Ox, Monkey",
+    "harmful_match": "Snake"
+  },
+  "Rabbit": {
+    "best_match": "Goat, Pig",
+    "favorable_match": "Dog, Rabbit",
+    "average_match": "Tiger, Monkey, Rat, Ox, Horse",
+    "bad_match": "Snake, Rooster",
+    "harmful_match": "Dragon"
+  },
+  "Dragon": {
+    "best_match": "Monkey, Rat",
+    "favorable_match": "Rooster",
+    "average_match": "Tiger, Snake, Horse, Goat, Pig",
+    "bad_match": "Ox, Dog, Dragon",
+    "harmful_match": "Rabbit"
+  },
+  "Snake": {
+    "best_match": "Rooster, Ox",
+    "favorable_match": "Monkey",
+    "average_match": "Snake, Horse, Dragon, Goat",
+    "bad_match": "Rabbit, Dog, Rat, Pig",
+    "harmful_match": "Tiger"
+  },
+  "Horse": {
+    "best_match": "Horse, Dog, Tiger",
+    "favorable_match": "Goat",
+    "average_match": "Snake, Rabbit, Dragon, Monkey, Rooster, Pig",
+    "bad_match": "Rat",
+    "harmful_match": "Ox"
+  },
+  "Goat": {
+    "best_match": "Goat, Pig, Rabbit",
+    "favorable_match": "Horse",
+    "average_match": "Snake, Tiger, Dragon, Monkey, Dog",
+    "bad_match": "Rooster, Ox",
+    "harmful_match": "Rat"
+  },
+  "Monkey": {
+    "best_match": "Rat, Dragon",
+    "favorable_match": "Snake",
+    "average_match": "Monkey, Rooster, Dog, Ox, Horse, Goat, Rabbit",
+    "bad_match": "Tiger",
+    "harmful_match": "Pig"
+  },
+  "Rooster": {
+    "best_match": "Ox, Snake",
+    "favorable_match": "Dragon",
+    "average_match": "Monkey, Horse, Goat, Pig, Tiger",
+    "bad_match": "Rooster, Rat, Rabbit",
+    "harmful_match": "Dog"
+  },
+  "Dog": {
+    "best_match": "Tiger, Horse",
+    "favorable_match": "Rabbit",
+    "average_match": "Monkey, Dog, Pig, Rat, Ox, Goat",
+    "bad_match": "Snake, Dragon",
+    "harmful_match": "Rooster"
+  },
+  "Pig": {
+    "best_match": "Rabbit, Goat",
+    "favorable_match": "Tiger",
+    "average_match": "Pig, Rat, Ox, Rooster, Dog, Dragon, Horse",
+    "bad_match": "Snake",
+    "harmful_match": "Monkey"
+  }
+  };
+  
+  var zodiac = {
+  "1924": {
+    "year_to": 1925,
+    "date_from": "1924-02-05",
+    "date_to": "1925-01-23",
+    "associated_animal": "Rat",
+    "associated_element": "Yang Wood",
+    "heavenly_stem": "甲",
+    "earthly_branch": "子"
+  },
+  "1925": {
+    "year_to": 1926,
+    "date_from": "1925-01-24",
+    "date_to": "1926-02-12",
+    "associated_animal": "Ox",
+    "associated_element": "Yin Wood",
+    "heavenly_stem": "乙",
+    "earthly_branch": "丑"
+  },
+  "1926": {
+    "year_to": 1927,
+    "date_from": "1926-02-13",
+    "date_to": "1927-02-01",
+    "associated_animal": "Tiger",
+    "associated_element": "Yang Fire",
+    "heavenly_stem": "丙",
+    "earthly_branch": "寅"
+  },
+  "1927": {
+    "year_to": 1928,
+    "date_from": "1927-02-02",
+    "date_to": "1928-01-22",
+    "associated_animal": "Rabbit",
+    "associated_element": "Yin Fire",
+    "heavenly_stem": "丁",
+    "earthly_branch": "卯"
+  },
+  "1928": {
+    "year_to": 1929,
+    "date_from": "1928-01-23",
+    "date_to": "1929-02-09",
+    "associated_animal": "Dragon",
+    "associated_element": "Yang Earth",
+    "heavenly_stem": "戊",
+    "earthly_branch": "辰"
+  },
+  "1929": {
+    "year_to": 1930,
+    "date_from": "1929-02-10",
+    "date_to": "1930-01-29",
+    "associated_animal": "Snake",
+    "associated_element": "Yin Earth",
+    "heavenly_stem": "己",
+    "earthly_branch": "巳"
+  },
+  "1930": {
+    "year_to": 1931,
+    "date_from": "1930-01-30",
+    "date_to": "1931-02-16",
+    "associated_animal": "Horse",
+    "associated_element": "Yang Metal",
+    "heavenly_stem": "庚",
+    "earthly_branch": "午"
+  },
+  "1931": {
+    "year_to": 1932,
+    "date_from": "1931-02-17",
+    "date_to": "1932-02-05",
+    "associated_animal": "Goat",
+    "associated_element": "Yin Metal",
+    "heavenly_stem": "辛",
+    "earthly_branch": "未"
+  },
+  "1932": {
+    "year_to": 1933,
+    "date_from": "1932-02-06",
+    "date_to": "1933-01-25",
+    "associated_animal": "Monkey",
+    "associated_element": "Yang Water",
+    "heavenly_stem": "壬",
+    "earthly_branch": "申"
+  },
+  "1933": {
+    "year_to": 1934,
+    "date_from": "1933-01-26",
+    "date_to": "1934-02-13",
+    "associated_animal": "Rooster",
+    "associated_element": "Yin Water",
+    "heavenly_stem": "癸",
+    "earthly_branch": "酉"
+  },
+  "1934": {
+    "year_to": 1935,
+    "date_from": "1934-02-14",
+    "date_to": "1935-02-03",
+    "associated_animal": "Dog",
+    "associated_element": "Yang Wood",
+    "heavenly_stem": "甲",
+    "earthly_branch": "戌"
+  },
+  "1935": {
+    "year_to": 1936,
+    "date_from": "1935-02-04",
+    "date_to": "1936-01-23",
+    "associated_animal": "Pig",
+    "associated_element": "Yin Wood",
+    "heavenly_stem": "乙",
+    "earthly_branch": "亥"
+  },
+  "1936": {
+    "year_to": 1937,
+    "date_from": "1936-01-24",
+    "date_to": "1937-02-10",
+    "associated_animal": "Rat",
+    "associated_element": "Yang Fire",
+    "heavenly_stem": "丙",
+    "earthly_branch": "子"
+  },
+  "1937": {
+    "year_to": 1938,
+    "date_from": "1937-02-11",
+    "date_to": "1938-01-30",
+    "associated_animal": "Ox",
+    "associated_element": "Yin Fire",
+    "heavenly_stem": "丁",
+    "earthly_branch": "丑"
+  },
+  "1938": {
+    "year_to": 1939,
+    "date_from": "1938-01-31",
+    "date_to": "1939-02-18",
+    "associated_animal": "Tiger",
+    "associated_element": "Yang Earth",
+    "heavenly_stem": "戊",
+    "earthly_branch": "寅"
+  },
+  "1939": {
+    "year_to": 1940,
+    "date_from": "1939-02-19",
+    "date_to": "1940-02-07",
+    "associated_animal": "Rabbit",
+    "associated_element": "Yin Earth",
+    "heavenly_stem": "己",
+    "earthly_branch": "卯"
+  },
+  "1940": {
+    "year_to": 1941,
+    "date_from": "1940-02-08",
+    "date_to": "1941-01-26",
+    "associated_animal": "Dragon",
+    "associated_element": "Yang Metal",
+    "heavenly_stem": "庚",
+    "earthly_branch": "辰"
+  },
+  "1941": {
+    "year_to": 1942,
+    "date_from": "1941-01-27",
+    "date_to": "1942-02-14",
+    "associated_animal": "Snake",
+    "associated_element": "Yin Metal",
+    "heavenly_stem": "辛",
+    "earthly_branch": "巳"
+  },
+  "1942": {
+    "year_to": 1943,
+    "date_from": "1942-02-15",
+    "date_to": "1943-02-04",
+    "associated_animal": "Horse",
+    "associated_element": "Yang Water",
+    "heavenly_stem": "壬",
+    "earthly_branch": "午"
+  },
+  "1943": {
+    "year_to": 1944,
+    "date_from": "1943-02-05",
+    "date_to": "1944-01-24",
+    "associated_animal": "Goat",
+    "associated_element": "Yin Water",
+    "heavenly_stem": "癸",
+    "earthly_branch": "未"
+  },
+  "1944": {
+    "year_to": 1945,
+    "date_from": "1944-01-25",
+    "date_to": "1945-02-12",
+    "associated_animal": "Monkey",
+    "associated_element": "Yang Wood",
+    "heavenly_stem": "甲",
+    "earthly_branch": "申"
+  },
+  "1945": {
+    "year_to": 1946,
+    "date_from": "1945-02-13",
+    "date_to": "1946-02-01",
+    "associated_animal": "Rooster",
+    "associated_element": "Yin Wood",
+    "heavenly_stem": "乙",
+    "earthly_branch": "酉"
+  },
+  "1946": {
+    "year_to": 1947,
+    "date_from": "1946-02-02",
+    "date_to": "1947-01-21",
+    "associated_animal": "Dog",
+    "associated_element": "Yang Fire",
+    "heavenly_stem": "丙",
+    "earthly_branch": "戌"
+  },
+  "1947": {
+    "year_to": 1948,
+    "date_from": "1947-01-22",
+    "date_to": "1948-02-09",
+    "associated_animal": "Pig",
+    "associated_element": "Yin Fire",
+    "heavenly_stem": "丁",
+    "earthly_branch": "亥"
+  },
+  "1948": {
+    "year_to": 1949,
+    "date_from": "1948-02-10",
+    "date_to": "1949-01-28",
+    "associated_animal": "Rat",
+    "associated_element": "Yang Earth",
+    "heavenly_stem": "戊",
+    "earthly_branch": "子"
+  },
+  "1949": {
+    "year_to": 1950,
+    "date_from": "1949-01-29",
+    "date_to": "1950-02-16",
+    "associated_animal": "Ox",
+    "associated_element": "Yin Earth",
+    "heavenly_stem": "己",
+    "earthly_branch": "丑"
+  },
+  "1950": {
+    "year_to": 1951,
+    "date_from": "1950-02-17",
+    "date_to": "1951-02-05",
+    "associated_animal": "Tiger",
+    "associated_element": "Yang Metal",
+    "heavenly_stem": "庚",
+    "earthly_branch": "寅"
+  },
+  "1951": {
+    "year_to": 1952,
+    "date_from": "1951-02-06",
+    "date_to": "1952-01-26",
+    "associated_animal": "Rabbit",
+    "associated_element": "Yin Metal",
+    "heavenly_stem": "辛",
+    "earthly_branch": "卯"
+  },
+  "1952": {
+    "year_to": 1953,
+    "date_from": "1952-01-27",
+    "date_to": "1953-02-13",
+    "associated_animal": "Dragon",
+    "associated_element": "Yang Water",
+    "heavenly_stem": "壬",
+    "earthly_branch": "辰"
+  },
+  "1953": {
+    "year_to": 1954,
+    "date_from": "1953-02-14",
+    "date_to": "1954-02-02",
+    "associated_animal": "Snake",
+    "associated_element": "Yin Water",
+    "heavenly_stem": "癸",
+    "earthly_branch": "巳"
+  },
+  "1954": {
+    "year_to": 1955,
+    "date_from": "1954-02-03",
+    "date_to": "1955-01-23",
+    "associated_animal": "Horse",
+    "associated_element": "Yang Wood",
+    "heavenly_stem": "甲",
+    "earthly_branch": "午"
+  },
+  "1955": {
+    "year_to": 1956,
+    "date_from": "1955-01-24",
+    "date_to": "1956-02-11",
+    "associated_animal": "Goat",
+    "associated_element": "Yin Wood",
+    "heavenly_stem": "乙",
+    "earthly_branch": "未"
+  },
+  "1956": {
+    "year_to": 1957,
+    "date_from": "1956-02-12",
+    "date_to": "1957-01-30",
+    "associated_animal": "Monkey",
+    "associated_element": "Yang Fire",
+    "heavenly_stem": "丙",
+    "earthly_branch": "申"
+  },
+  "1957": {
+    "year_to": 1958,
+    "date_from": "1957-01-31",
+    "date_to": "1958-02-17",
+    "associated_animal": "Rooster",
+    "associated_element": "Yin Fire",
+    "heavenly_stem": "丁",
+    "earthly_branch": "酉"
+  },
+  "1958": {
+    "year_to": 1959,
+    "date_from": "1958-02-18",
+    "date_to": "1959-02-07",
+    "associated_animal": "Dog",
+    "associated_element": "Yang Earth",
+    "heavenly_stem": "戊",
+    "earthly_branch": "戌"
+  },
+  "1959": {
+    "year_to": 1960,
+    "date_from": "1959-02-08",
+    "date_to": "1960-01-27",
+    "associated_animal": "Pig",
+    "associated_element": "Yin Earth",
+    "heavenly_stem": "己",
+    "earthly_branch": "亥"
+  },
+  "1960": {
+    "year_to": 1961,
+    "date_from": "1960-01-28",
+    "date_to": "1961-02-14",
+    "associated_animal": "Rat",
+    "associated_element": "Yang Metal",
+    "heavenly_stem": "庚",
+    "earthly_branch": "子"
+  },
+  "1961": {
+    "year_to": 1962,
+    "date_from": "1961-02-15",
+    "date_to": "1962-02-04",
+    "associated_animal": "Ox",
+    "associated_element": "Yin Metal",
+    "heavenly_stem": "辛",
+    "earthly_branch": "丑"
+  },
+  "1962": {
+    "year_to": 1963,
+    "date_from": "1962-02-05",
+    "date_to": "1963-01-24",
+    "associated_animal": "Tiger",
+    "associated_element": "Yang Water",
+    "heavenly_stem": "壬",
+    "earthly_branch": "寅"
+  },
+  "1963": {
+    "year_to": 1964,
+    "date_from": "1963-01-25",
+    "date_to": "1964-02-12",
+    "associated_animal": "Rabbit",
+    "associated_element": "Yin Water",
+    "heavenly_stem": "癸",
+    "earthly_branch": "卯"
+  },
+  "1964": {
+    "year_to": 1965,
+    "date_from": "1964-02-13",
+    "date_to": "1965-02-01",
+    "associated_animal": "Dragon",
+    "associated_element": "Yang Wood",
+    "heavenly_stem": "甲",
+    "earthly_branch": "辰"
+  },
+  "1965": {
+    "year_to": 1966,
+    "date_from": "1965-02-02",
+    "date_to": "1966-01-20",
+    "associated_animal": "Snake",
+    "associated_element": "Yin Wood",
+    "heavenly_stem": "乙",
+    "earthly_branch": "巳"
+  },
+  "1966": {
+    "year_to": 1967,
+    "date_from": "1966-01-21",
+    "date_to": "1967-02-08",
+    "associated_animal": "Horse",
+    "associated_element": "Yang Fire",
+    "heavenly_stem": "丙",
+    "earthly_branch": "午"
+  },
+  "1967": {
+    "year_to": 1968,
+    "date_from": "1967-02-09",
+    "date_to": "1968-01-29",
+    "associated_animal": "Goat",
+    "associated_element": "Yin Fire",
+    "heavenly_stem": "丁",
+    "earthly_branch": "未"
+  },
+  "1968": {
+    "year_to": 1969,
+    "date_from": "1968-01-30",
+    "date_to": "1969-02-16",
+    "associated_animal": "Monkey",
+    "associated_element": "Yang Earth",
+    "heavenly_stem": "戊",
+    "earthly_branch": "申"
+  },
+  "1969": {
+    "year_to": 1970,
+    "date_from": "1969-02-17",
+    "date_to": "1970-02-05",
+    "associated_animal": "Rooster",
+    "associated_element": "Yin Earth",
+    "heavenly_stem": "己",
+    "earthly_branch": "酉"
+  },
+  "1970": {
+    "year_to": 1971,
+    "date_from": "1970-02-06",
+    "date_to": "1971-01-26",
+    "associated_animal": "Dog",
+    "associated_element": "Yang Metal",
+    "heavenly_stem": "庚",
+    "earthly_branch": "戌"
+  },
+  "1971": {
+    "year_to": 1972,
+    "date_from": "1971-01-27",
+    "date_to": "1972-02-14",
+    "associated_animal": "Pig",
+    "associated_element": "Yin Metal",
+    "heavenly_stem": "辛",
+    "earthly_branch": "亥"
+  },
+  "1972": {
+    "year_to": 1973,
+    "date_from": "1972-02-15",
+    "date_to": "1973-02-02",
+    "associated_animal": "Rat",
+    "associated_element": "Yang Water",
+    "heavenly_stem": "壬",
+    "earthly_branch": "子"
+  },
+  "1973": {
+    "year_to": 1974,
+    "date_from": "1973-02-03",
+    "date_to": "1974-01-22",
+    "associated_animal": "Ox",
+    "associated_element": "Yin Water",
+    "heavenly_stem": "癸",
+    "earthly_branch": "丑"
+  },
+  "1974": {
+    "year_to": 1975,
+    "date_from": "1974-01-23",
+    "date_to": "1975-02-10",
+    "associated_animal": "Tiger",
+    "associated_element": "Yang Wood",
+    "heavenly_stem": "甲",
+    "earthly_branch": "寅"
+  },
+  "1975": {
+    "year_to": 1976,
+    "date_from": "1975-02-11",
+    "date_to": "1976-01-30",
+    "associated_animal": "Rabbit",
+    "associated_element": "Yin Wood",
+    "heavenly_stem": "乙",
+    "earthly_branch": "卯"
+  },
+  "1976": {
+    "year_to": 1977,
+    "date_from": "1976-01-31",
+    "date_to": "1977-02-17",
+    "associated_animal": "Dragon",
+    "associated_element": "Yang Fire",
+    "heavenly_stem": "丙",
+    "earthly_branch": "辰"
+  },
+  "1977": {
+    "year_to": 1978,
+    "date_from": "1977-02-18",
+    "date_to": "1978-02-06",
+    "associated_animal": "Snake",
+    "associated_element": "Yin Fire",
+    "heavenly_stem": "丁",
+    "earthly_branch": "巳"
+  },
+  "1978": {
+    "year_to": 1979,
+    "date_from": "1978-02-07",
+    "date_to": "1979-01-27",
+    "associated_animal": "Horse",
+    "associated_element": "Yang Earth",
+    "heavenly_stem": "戊",
+    "earthly_branch": "午"
+  },
+  "1979": {
+    "year_to": 1980,
+    "date_from": "1979-01-28",
+    "date_to": "1980-02-15",
+    "associated_animal": "Goat",
+    "associated_element": "Yin Earth",
+    "heavenly_stem": "己",
+    "earthly_branch": "未"
+  },
+  "1980": {
+    "year_to": 1981,
+    "date_from": "1980-02-16",
+    "date_to": "1981-02-04",
+    "associated_animal": "Monkey",
+    "associated_element": "Yang Metal",
+    "heavenly_stem": "庚",
+    "earthly_branch": "申"
+  },
+  "1981": {
+    "year_to": 1982,
+    "date_from": "1981-02-05",
+    "date_to": "1982-01-24",
+    "associated_animal": "Rooster",
+    "associated_element": "Yin Metal",
+    "heavenly_stem": "辛",
+    "earthly_branch": "酉"
+  },
+  "1982": {
+    "year_to": 1983,
+    "date_from": "1982-01-25",
+    "date_to": "1983-02-12",
+    "associated_animal": "Dog",
+    "associated_element": "Yang Water",
+    "heavenly_stem": "壬",
+    "earthly_branch": "戌"
+  },
+  "1983": {
+    "year_to": 1984,
+    "date_from": "1983-02-13",
+    "date_to": "1984-02-01",
+    "associated_animal": "Pig",
+    "associated_element": "Yin Water",
+    "heavenly_stem": "癸",
+    "earthly_branch": "亥"
+  },
+  "1984": {
+    "year_to": 1985,
+    "date_from": "1984-02-02",
+    "date_to": "1985-02-19",
+    "associated_animal": "Rat",
+    "associated_element": "Yang Wood",
+    "heavenly_stem": "甲",
+    "earthly_branch": "子"
+  },
+  "1985": {
+    "year_to": 1986,
+    "date_from": "1985-02-20",
+    "date_to": "1986-02-08",
+    "associated_animal": "Ox",
+    "associated_element": "Yin Wood",
+    "heavenly_stem": "乙",
+    "earthly_branch": "丑"
+  },
+  "1986": {
+    "year_to": 1987,
+    "date_from": "1986-02-09",
+    "date_to": "1987-01-28",
+    "associated_animal": "Tiger",
+    "associated_element": "Yang Fire",
+    "heavenly_stem": "丙",
+    "earthly_branch": "寅"
+  },
+  "1987": {
+    "year_to": 1988,
+    "date_from": "1987-01-29",
+    "date_to": "1988-02-16",
+    "associated_animal": "Rabbit",
+    "associated_element": "Yin Fire",
+    "heavenly_stem": "丁",
+    "earthly_branch": "卯"
+  },
+  "1988": {
+    "year_to": 1989,
+    "date_from": "1988-02-17",
+    "date_to": "1989-02-05",
+    "associated_animal": "Dragon",
+    "associated_element": "Yang Earth",
+    "heavenly_stem": "戊",
+    "earthly_branch": "辰"
+  },
+  "1989": {
+    "year_to": 1990,
+    "date_from": "1989-02-06",
+    "date_to": "1990-01-26",
+    "associated_animal": "Snake",
+    "associated_element": "Yin Earth",
+    "heavenly_stem": "己",
+    "earthly_branch": "巳"
+  },
+  "1990": {
+    "year_to": 1991,
+    "date_from": "1990-01-27",
+    "date_to": "1991-02-14",
+    "associated_animal": "Horse",
+    "associated_element": "Yang Metal",
+    "heavenly_stem": "庚",
+    "earthly_branch": "午"
+  },
+  "1991": {
+    "year_to": 1992,
+    "date_from": "1991-02-15",
+    "date_to": "1992-02-03",
+    "associated_animal": "Goat",
+    "associated_element": "Yin Metal",
+    "heavenly_stem": "辛",
+    "earthly_branch": "未"
+  },
+  "1992": {
+    "year_to": 1993,
+    "date_from": "1992-02-04",
+    "date_to": "1993-01-22",
+    "associated_animal": "Monkey",
+    "associated_element": "Yang Water",
+    "heavenly_stem": "壬",
+    "earthly_branch": "申"
+  },
+  "1993": {
+    "year_to": 1994,
+    "date_from": "1993-01-23",
+    "date_to": "1994-02-09",
+    "associated_animal": "Rooster",
+    "associated_element": "Yin Water",
+    "heavenly_stem": "癸",
+    "earthly_branch": "酉"
+  },
+  "1994": {
+    "year_to": 1995,
+    "date_from": "1994-02-10",
+    "date_to": "1995-01-30",
+    "associated_animal": "Dog",
+    "associated_element": "Yang Wood",
+    "heavenly_stem": "甲",
+    "earthly_branch": "戌"
+  },
+  "1995": {
+    "year_to": 1996,
+    "date_from": "1995-01-31",
+    "date_to": "1996-02-18",
+    "associated_animal": "Pig",
+    "associated_element": "Yin Wood",
+    "heavenly_stem": "乙",
+    "earthly_branch": "亥"
+  },
+  "1996": {
+    "year_to": 1997,
+    "date_from": "1996-02-19",
+    "date_to": "1997-02-06",
+    "associated_animal": "Rat",
+    "associated_element": "Yang Fire",
+    "heavenly_stem": "丙",
+    "earthly_branch": "子"
+  },
+  "1997": {
+    "year_to": 1998,
+    "date_from": "1997-02-07",
+    "date_to": "1998-01-27",
+    "associated_animal": "Ox",
+    "associated_element": "Yin Fire",
+    "heavenly_stem": "丁",
+    "earthly_branch": "丑"
+  },
+  "1998": {
+    "year_to": 1999,
+    "date_from": "1998-01-28",
+    "date_to": "1999-02-15",
+    "associated_animal": "Tiger",
+    "associated_element": "Yang Earth",
+    "heavenly_stem": "戊",
+    "earthly_branch": "寅"
+  },
+  "1999": {
+    "year_to": 2000,
+    "date_from": "1999-02-16",
+    "date_to": "2000-02-04",
+    "associated_animal": "Rabbit",
+    "associated_element": "Yin Earth",
+    "heavenly_stem": "己",
+    "earthly_branch": "卯"
+  },
+  "2000": {
+    "year_to": 2001,
+    "date_from": "2000-02-05",
+    "date_to": "2001-01-23",
+    "associated_animal": "Dragon",
+    "associated_element": "Yang Metal",
+    "heavenly_stem": "庚",
+    "earthly_branch": "辰"
+  },
+  "2001": {
+    "year_to": 2002,
+    "date_from": "2001-01-24",
+    "date_to": "2002-02-11",
+    "associated_animal": "Snake",
+    "associated_element": "Yin Metal",
+    "heavenly_stem": "辛",
+    "earthly_branch": "巳"
+  },
+  "2002": {
+    "year_to": 2003,
+    "date_from": "2002-02-12",
+    "date_to": "2003-01-31",
+    "associated_animal": "Horse",
+    "associated_element": "Yang Water",
+    "heavenly_stem": "壬",
+    "earthly_branch": "午"
+  },
+  "2003": {
+    "year_to": 2004,
+    "date_from": "2003-02-01",
+    "date_to": "2004-01-21",
+    "associated_animal": "Goat",
+    "associated_element": "Yin Water",
+    "heavenly_stem": "癸",
+    "earthly_branch": "未"
+  },
+  "2004": {
+    "year_to": 2005,
+    "date_from": "2004-01-22",
+    "date_to": "2005-02-08",
+    "associated_animal": "Monkey",
+    "associated_element": "Yang Wood",
+    "heavenly_stem": "甲",
+    "earthly_branch": "申"
+  },
+  "2005": {
+    "year_to": 2006,
+    "date_from": "2005-02-09",
+    "date_to": "2006-01-28",
+    "associated_animal": "Rooster",
+    "associated_element": "Yin Wood",
+    "heavenly_stem": "乙",
+    "earthly_branch": "酉"
+  },
+  "2006": {
+    "year_to": 2007,
+    "date_from": "2006-01-29",
+    "date_to": "2007-02-17",
+    "associated_animal": "Dog",
+    "associated_element": "Yang Fire",
+    "heavenly_stem": "丙",
+    "earthly_branch": "戌"
+  },
+  "2007": {
+    "year_to": 2008,
+    "date_from": "2007-02-18",
+    "date_to": "2008-02-06",
+    "associated_animal": "Pig",
+    "associated_element": "Yin Fire",
+    "heavenly_stem": "丁",
+    "earthly_branch": "亥"
+  },
+  "2008": {
+    "year_to": 2009,
+    "date_from": "2008-02-07",
+    "date_to": "2009-01-25",
+    "associated_animal": "Rat",
+    "associated_element": "Yang Earth",
+    "heavenly_stem": "戊",
+    "earthly_branch": "子"
+  },
+  "2009": {
+    "year_to": 2010,
+    "date_from": "2009-01-26",
+    "date_to": "2010-02-13",
+    "associated_animal": "Ox",
+    "associated_element": "Yin Earth",
+    "heavenly_stem": "己",
+    "earthly_branch": "丑"
+  },
+  "2010": {
+    "year_to": 2011,
+    "date_from": "2010-02-14",
+    "date_to": "2011-02-02",
+    "associated_animal": "Tiger",
+    "associated_element": "Yang Metal",
+    "heavenly_stem": "庚",
+    "earthly_branch": "寅"
+  },
+  "2011": {
+    "year_to": 2012,
+    "date_from": "2011-02-03",
+    "date_to": "2012-01-22",
+    "associated_animal": "Rabbit",
+    "associated_element": "Yin Metal",
+    "heavenly_stem": "辛",
+    "earthly_branch": "卯"
+  },
+  "2012": {
+    "year_to": 2013,
+    "date_from": "2012-01-23",
+    "date_to": "2013-02-09",
+    "associated_animal": "Dragon",
+    "associated_element": "Yang Water",
+    "heavenly_stem": "壬",
+    "earthly_branch": "辰"
+  },
+  "2013": {
+    "year_to": 2014,
+    "date_from": "2013-02-10",
+    "date_to": "2014-01-30",
+    "associated_animal": "Snake",
+    "associated_element": "Yin Water",
+    "heavenly_stem": "癸",
+    "earthly_branch": "巳"
+  },
+  "2014": {
+    "year_to": 2015,
+    "date_from": "2014-01-31",
+    "date_to": "2015-02-18",
+    "associated_animal": "Horse",
+    "associated_element": "Yang Wood",
+    "heavenly_stem": "甲",
+    "earthly_branch": "午"
+  },
+  "2015": {
+    "year_to": 2016,
+    "date_from": "2015-02-19",
+    "date_to": "2016-02-07",
+    "associated_animal": "Goat",
+    "associated_element": "Yin Wood",
+    "heavenly_stem": "乙",
+    "earthly_branch": "未"
+  },
+  "2016": {
+    "year_to": 2017,
+    "date_from": "2016-02-08",
+    "date_to": "2017-01-27",
+    "associated_animal": "Monkey",
+    "associated_element": "Yang Fire",
+    "heavenly_stem": "丙",
+    "earthly_branch": "申"
+  },
+  "2017": {
+    "year_to": 2018,
+    "date_from": "2017-01-28",
+    "date_to": "2018-02-15",
+    "associated_animal": "Rooster",
+    "associated_element": "Yin Fire",
+    "heavenly_stem": "丁",
+    "earthly_branch": "酉"
+  },
+  "2018": {
+    "year_to": 2019,
+    "date_from": "2018-02-16",
+    "date_to": "2019-02-04",
+    "associated_animal": "Dog",
+    "associated_element": "Yang Earth",
+    "heavenly_stem": "戊",
+    "earthly_branch": "戌"
+  },
+  "2019": {
+    "year_to": 2020,
+    "date_from": "2019-02-05",
+    "date_to": "2020-01-24",
+    "associated_animal": "Pig",
+    "associated_element": "Yin Earth",
+    "heavenly_stem": "己",
+    "earthly_branch": "亥"
+  },
+  "2020": {
+    "year_to": 2021,
+    "date_from": "2020-01-25",
+    "date_to": "2021-02-11",
+    "associated_animal": "Rat",
+    "associated_element": "Yang Metal",
+    "heavenly_stem": "庚",
+    "earthly_branch": "子"
+  },
+  "2021": {
+    "year_to": 2022,
+    "date_from": "2021-02-12",
+    "date_to": "2022-01-31",
+    "associated_animal": "Ox",
+    "associated_element": "Yin Metal",
+    "heavenly_stem": "辛",
+    "earthly_branch": "丑"
+  },
+  "2022": {
+    "year_to": 2023,
+    "date_from": "2022-02-01",
+    "date_to": "2023-01-21",
+    "associated_animal": "Tiger",
+    "associated_element": "Yang Water",
+    "heavenly_stem": "壬",
+    "earthly_branch": "寅"
+  },
+  "2023": {
+    "year_to": 2024,
+    "date_from": "2023-01-22",
+    "date_to": "2024-02-09",
+    "associated_animal": "Rabbit",
+    "associated_element": "Yin Water",
+    "heavenly_stem": "癸",
+    "earthly_branch": "卯"
+  },
+  "2024": {
+    "year_to": 2025,
+    "date_from": "2024-02-10",
+    "date_to": "2025-01-28",
+    "associated_animal": "Dragon",
+    "associated_element": "Yang Wood",
+    "heavenly_stem": "甲",
+    "earthly_branch": "辰"
+  },
+  "2025": {
+    "year_to": 2026,
+    "date_from": "2025-01-29",
+    "date_to": "2026-02-16",
+    "associated_animal": "Snake",
+    "associated_element": "Yin Wood",
+    "heavenly_stem": "乙",
+    "earthly_branch": "巳"
+  },
+  "2026": {
+    "year_to": 2027,
+    "date_from": "2026-02-17",
+    "date_to": "2027-02-05",
+    "associated_animal": "Horse",
+    "associated_element": "Yang Fire",
+    "heavenly_stem": "丙",
+    "earthly_branch": "午"
+  },
+  "2027": {
+    "year_to": 2028,
+    "date_from": "2027-02-06",
+    "date_to": "2028-01-25",
+    "associated_animal": "Goat",
+    "associated_element": "Yin Fire",
+    "heavenly_stem": "丁",
+    "earthly_branch": "未"
+  },
+  "2028": {
+    "year_to": 2029,
+    "date_from": "2028-01-26",
+    "date_to": "2029-02-12",
+    "associated_animal": "Monkey",
+    "associated_element": "Yang Earth",
+    "heavenly_stem": "戊",
+    "earthly_branch": "申"
+  },
+  "2029": {
+    "year_to": 2030,
+    "date_from": "2029-02-13",
+    "date_to": "2030-02-02",
+    "associated_animal": "Rooster",
+    "associated_element": "Yin Earth",
+    "heavenly_stem": "己",
+    "earthly_branch": "酉"
+  },
+  "2030": {
+    "year_to": 2031,
+    "date_from": "2030-02-03",
+    "date_to": "2031-01-22",
+    "associated_animal": "Dog",
+    "associated_element": "Yang Metal",
+    "heavenly_stem": "庚",
+    "earthly_branch": "戌"
+  },
+  "2031": {
+    "year_to": 2032,
+    "date_from": "2031-01-23",
+    "date_to": "2032-02-10",
+    "associated_animal": "Pig",
+    "associated_element": "Yin Metal",
+    "heavenly_stem": "辛",
+    "earthly_branch": "亥"
+  },
+  "2032": {
+    "year_to": 2033,
+    "date_from": "2032-02-11",
+    "date_to": "2033-01-30",
+    "associated_animal": "Rat",
+    "associated_element": "Yang Water",
+    "heavenly_stem": "壬",
+    "earthly_branch": "子"
+  },
+  "2033": {
+    "year_to": 2034,
+    "date_from": "2033-01-31",
+    "date_to": "2034-02-18",
+    "associated_animal": "Ox",
+    "associated_element": "Yin Water",
+    "heavenly_stem": "癸",
+    "earthly_branch": "丑"
+  },
+  "2034": {
+    "year_to": 2035,
+    "date_from": "2034-02-19",
+    "date_to": "2035-02-07",
+    "associated_animal": "Tiger",
+    "associated_element": "Yang Wood",
+    "heavenly_stem": "甲",
+    "earthly_branch": "寅"
+  },
+  "2035": {
+    "year_to": 2036,
+    "date_from": "2035-02-08",
+    "date_to": "2036-01-27",
+    "associated_animal": "Rabbit",
+    "associated_element": "Yin Wood",
+    "heavenly_stem": "乙",
+    "earthly_branch": "卯"
+  },
+  "2036": {
+    "year_to": 2037,
+    "date_from": "2036-01-28",
+    "date_to": "2037-02-14",
+    "associated_animal": "Dragon",
+    "associated_element": "Yang Fire",
+    "heavenly_stem": "丙",
+    "earthly_branch": "辰"
+  },
+  "2037": {
+    "year_to": 2038,
+    "date_from": "2037-02-15",
+    "date_to": "2038-02-03",
+    "associated_animal": "Snake",
+    "associated_element": "Yin Fire",
+    "heavenly_stem": "丁",
+    "earthly_branch": "巳"
+  },
+  "2038": {
+    "year_to": 2039,
+    "date_from": "2038-02-04",
+    "date_to": "2039-01-23",
+    "associated_animal": "Horse",
+    "associated_element": "Yang Earth",
+    "heavenly_stem": "戊",
+    "earthly_branch": "午"
+  },
+  "2039": {
+    "year_to": 2040,
+    "date_from": "2039-01-24",
+    "date_to": "2040-02-11",
+    "associated_animal": "Goat",
+    "associated_element": "Yin Earth",
+    "heavenly_stem": "己",
+    "earthly_branch": "未"
+  },
+  "2040": {
+    "year_to": 2041,
+    "date_from": "2040-02-12",
+    "date_to": "2041-01-31",
+    "associated_animal": "Monkey",
+    "associated_element": "Yang Metal",
+    "heavenly_stem": "庚",
+    "earthly_branch": "申"
+  },
+  "2041": {
+    "year_to": 2042,
+    "date_from": "2041-02-01",
+    "date_to": "2042-01-21",
+    "associated_animal": "Rooster",
+    "associated_element": "Yin Metal",
+    "heavenly_stem": "辛",
+    "earthly_branch": "酉"
+  },
+  "2042": {
+    "year_to": 2043,
+    "date_from": "2042-01-22",
+    "date_to": "2043-02-09",
+    "associated_animal": "Dog",
+    "associated_element": "Yang Water",
+    "heavenly_stem": "壬",
+    "earthly_branch": "戌"
+  },
+  "2043": {
+    "year_to": 2044,
+    "date_from": "2043-02-10",
+    "date_to": "2044-01-29",
+    "associated_animal": "Pig",
+    "associated_element": "Yin Water",
+    "heavenly_stem": "癸",
+    "earthly_branch": "亥"
+  }
+  };
+  
+  // var strSep1 = "x".repeat(80);
+  // var strSep1 = "x".repeat(56);
+  var strSep1 = "x".repeat(45);
+
+  function formatDate(date) {
+      var d = new Date(date),
+          month = '' + (d.getMonth() + 1),
+          day = '' + d.getDate(),
+          year = d.getFullYear();
+  
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+  
+      return [year, month, day].join('-');
+  }
+   
+  function getDayNumber(){
+    // Get Day Number
+    var today = new Date(); 
+    return dayNum = Math.ceil((today - new Date(today.getFullYear(),0,1)) / 86400000);
+  }
+   
+  function dateFromAge(age){
+    // DOB from Age
+    // https://stackoverflow.com/questions/51933776/want-to-calculate-date-of-birth-from-a-given-age
+    var age_value = age; 
+    var current_date = new Date(); 
+    var birth_date = new Date(current_date.getFullYear() - age_value, current_date.getMonth(), current_date.getDate()); 
+    return formatDate(birth_date);
+  };
+    
+  function findZodiacInfoFromDOB(strDOB){
+    var dateToday = new Date();
+    var dob = new Date(strDOB);
+    var dobYear = dob.getFullYear();
+    var yearFrom1 = new Date(zodiac[dobYear-1].date_from);
+    var yearTo1 = new Date(zodiac[dobYear-1].date_to);
+    var yearFrom2 = new Date(zodiac[dobYear].date_from);
+    var yearTo2 = new Date(zodiac[dobYear].date_to);
+    var yearFrom3 = new Date(zodiac[dobYear+1].date_from);
+    var yearTo3 = new Date(zodiac[dobYear+1].date_to);
+
+    yearFrom1 = new Date(year=yearFrom1.getFullYear(), month=yearFrom1.getMonth(), date=yearFrom1.getDate());
+    yearTo1 = new Date(year=yearTo1.getFullYear(), month=yearTo1.getMonth(), date=yearTo1.getDate());
+    yearFrom2 = new Date(year=yearFrom2.getFullYear(), month=yearFrom2.getMonth(), date=yearFrom2.getDate());
+    yearTo2 = new Date(year=yearTo2.getFullYear(), month=yearTo2.getMonth(), date=yearTo2.getDate());
+    yearFrom3 = new Date(year=yearFrom3.getFullYear(), month=yearFrom3.getMonth(), date=yearFrom3.getDate());
+    yearTo3 = new Date(year=yearTo3.getFullYear(), month=yearTo3.getMonth(), date=yearTo3.getDate());
+
+    // console.log("strDOB :", strDOB);
+    // console.log("dobYear:", dobYear);
+    // console.log("dob    :", dob);
+    // console.log("PRIOR");
+    // console.log("from   :", yearFrom1);
+    // console.log("to     :", yearTo1);
+    // console.log("CURRENT");
+    // console.log("from   :", yearFrom2);
+    // console.log("to     :", yearTo2);
+    // console.log("NEXT");
+    // console.log("from   :", yearFrom3);
+    // console.log("to     :", yearTo3);
+    // console.log("=".repeat(25));
+
+    // console.log("strDOB :", strDOB);
+    // console.log("dobYear:", dobYear);
+    // console.log("dob    :", formatDate(dob));
+    // console.log("PRIOR");
+    // console.log("from   :", formatDate(yearFrom1));
+    // console.log("to     :", formatDate(yearTo1));
+    // console.log("CURRENT");
+    // console.log("from   :", formatDate(yearFrom2));
+    // console.log("to     :", formatDate(yearTo2));
+    // console.log("NEXT");
+    // console.log("from   :", formatDate(yearFrom3));
+    // console.log("to     :", formatDate(yearTo3));
+    // console.log("=".repeat(50));
+
+    if ( dob >= yearFrom1 && dob <= yearTo1 ) {
+    //   console.log(dobYear, "prior", formatDate(dob), formatDate(yearFrom1), formatDate(yearTo1));
+    //   console.log(zodiac[dobYear-1].associated_animal);
+      return `Birthdate    : ${formatDate(dob)}\nAge          : ${dateToday.getFullYear() - dobYear}\nSign         : ${zodiac[dobYear-1].associated_animal}\nYear Range   : ${formatDate(yearFrom1)} to ${formatDate(yearTo1)}`;
+    }
+
+    if ( dob >= yearFrom2 && dob <= yearTo2 ) {
+    //   console.log(dobYear, "year",formatDate(dob), formatDate(yearFrom2), formatDate(yearTo2));
+    //   console.log(zodiac[dobYear-1].associated_animal);
+      return `Birthdate    : ${formatDate(dob)}\nAge          : ${dateToday.getFullYear() - dobYear}\nSign         : ${zodiac[dobYear].associated_animal}\nYear Range   : ${formatDate(yearFrom2)} to ${formatDate(yearTo2)}`;
+    }
+
+    if ( dob >= yearFrom3 && dob <= yearTo3 ) {
+    //   console.log(dobYear, "next", formatDate(dob), formatDate(yearFrom3), formatDate(yearTo3));
+    //   console.log(zodiac[dobYear+1].associated_animal);
+      return `Birthdate    : ${formatDate(dob)}\nAge          : ${dateToday.getFullYear() - dobYear}\nSign         : ${zodiac[dobYear+1].associated_animal}\nYear Range   : ${formatDate(yearFrom3)} to ${formatDate(yearTo3)}`;
+    }
+
+    return NULL;
+  };
+
+  function findAnimalFromDOB(strDOB){
+    var dateToday = new Date();
+    var dob = new Date(strDOB);
+    var dobYear = dob.getFullYear();
+    var yearFrom1 = new Date(zodiac[dobYear-1].date_from);
+    var yearTo1 = new Date(zodiac[dobYear-1].date_to);
+    var yearFrom2 = new Date(zodiac[dobYear].date_from);
+    var yearTo2 = new Date(zodiac[dobYear].date_to);
+    var yearFrom3 = new Date(zodiac[dobYear+1].date_from);
+    var yearTo3 = new Date(zodiac[dobYear+1].date_to);
+
+    yearFrom1 = new Date(year=yearFrom1.getFullYear(), month=yearFrom1.getMonth(), date=yearFrom1.getDate());
+    yearTo1 = new Date(year=yearTo1.getFullYear(), month=yearTo1.getMonth(), date=yearTo1.getDate());
+    yearFrom2 = new Date(year=yearFrom2.getFullYear(), month=yearFrom2.getMonth(), date=yearFrom2.getDate());
+    yearTo2 = new Date(year=yearTo2.getFullYear(), month=yearTo2.getMonth(), date=yearTo2.getDate());
+    yearFrom3 = new Date(year=yearFrom3.getFullYear(), month=yearFrom3.getMonth(), date=yearFrom3.getDate());
+    yearTo3 = new Date(year=yearTo3.getFullYear(), month=yearTo3.getMonth(), date=yearTo3.getDate());
+
+    if ( dob >= yearFrom1 && dob <= yearTo1 ) {
+      //console.log(dobYear, "prior", formatDate(dob), formatDate(yearFrom1), formatDate(yearTo1));
+      //console.log(zodiac[dobYear-1].associated_animal);
+      return zodiac[dobYear-1].associated_animal;
+    }
+  
+    if ( dob >= yearFrom2 && dob <= yearTo2 ) {
+      //console.log(dobYear, "year",formatDate(dob), formatDate(yearFrom2), formatDate(yearTo2));
+      //console.log(zodiac[dobYear-1].associated_animal);
+      return zodiac[dobYear].associated_animal;
+    }
+
+    if ( dob >= yearFrom3 && dob <= yearTo3 ) {
+    //   console.log(dobYear, "next", formatDate(dob), formatDate(yearFrom3), formatDate(yearTo3));
+    //   console.log(zodiac[dobYear+1].associated_animal);
+        return zodiac[dobYear+1].associated_animal;
+    }
+
+    return NULL;
+  };
+
+  function findYearAndAgeByAnimal(animal) {
+    var dateRanges = "";
+    var dateToday = new Date();
+    var dateYear = dateToday.getFullYear()
+    for (zodiacItem in zodiac) {
+      var birthDate = new Date(zodiac[zodiacItem].date_from);
+      //console.log(zodiac[zodiacItem].date_from);
+      if (zodiac[zodiacItem].associated_animal == animal) {
+        if (birthDate <= dateToday) {
+          var age = dateToday.getFullYear() - birthDate.getFullYear();
+          if (age <= 0) {
+              dateRanges += zodiac[zodiacItem].date_from + " to " + zodiac[zodiacItem].date_to + " [ Newborn ]\n";
+          } else {
+              dateRanges += zodiac[zodiacItem].date_from + " to " + zodiac[zodiacItem].date_to + " [ " + ("   " + age).slice(-3) + " ]\n";
+          }
+        } else {
+          dateRanges += zodiac[zodiacItem].date_from + " to " + zodiac[zodiacItem].date_to + " [ Not born ]\n";
+        }
+      }
+    };
+    return dateRanges.slice(0, dateRanges.length - 1);
+  }  
+  
+  var elmResults = document.getElementById("results");
+    
+  function valDOB() {
+    // elmResults.value = findZodiacInfoFromDOB(document.getElementById("dob").value) + "\n\n" + strSep1 + "\n\n" + elmResults.value;
+  };
+  
+  function valAge(event) {
+    // console.log(event);
+    // if (event.key == "Enter" || event.type == "blur" ) {
+        var ageVal = document.getElementById("sliderAge").value;
+        var ageToDate = dateFromAge(ageVal);
+        var animal = findAnimalFromDOB(ageToDate);
+        if (ageVal) {
+            // elmResults.value = "Year of Birth: " + ageToDate + " | Age: " + ageVal + "\n\n" + animal + "\n" + "=".repeat(7) + "\n" + findYearAndAgeByAnimal(animal) + "\n\n" + strSep1 + "\n\n" + elmResults.value;
+            elmResults.value = "Year of Birth: " + ageToDate + " | Age: " + ageVal + "\n\n" + animal + "\n" + "=".repeat(7) + "\n" + findYearAndAgeByAnimal(animal) + "\n\n" + strSep1;
+            elmResults.value = elmResults.value + getCompatibility(animal);
+            // document.getElementById("dob").value = ageToDate;
+            // valDOB();
+            document.getElementById("retAge").innerHTML = document.getElementById("sliderAge").value;
+        }
+    // }
+  };
+
+    function getCompatibility(animal) {
+        return "\n\nCompatibility\n" +  "=".repeat(13) + "\n" + `best     : ${zodiacMatch[animal].best_match}\nfavorable: ${zodiacMatch[animal].favorable_match}\naverage  : ${zodiacMatch[animal].average_match}\nbad      : ${zodiacMatch[animal].bad_match}\nharmful  : ${zodiacMatch[animal].harmful_match}` + "\n\n" + strSep1 + "\n\n";
+    }
+
+  function valSign(animal=null) {
+        if(animal==null) {
+            animal = document.getElementById("sign").value;
+        }
+        elmResults.value = animal + "\n" + "=".repeat(7) + "\n" + findYearAndAgeByAnimal(animal) + getCompatibility(animal);
+  }
+
+    // program to check leap year
+    // https://www.programiz.com/javascript/examples/check-leap-year
+    function checkLeapYear(year) {
+
+        //three conditions to find out the leap year
+        if ((0 == year % 4) && (0 != year % 100) || (0 == year % 400)) {
+            // console.log(year + ' is a leap year');
+            return 29;
+        } else {
+            // console.log(year + ' is not a leap year');
+            return 28;
+        }
+    }
+
+const day31 = [0,2,4,6,7,9,11];
+const day30 = [3,5,8,10];
+const nameMonth = [ 'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec' ];
+
+// 0 January – 31 days
+//     1 February – 28 days in a common year and 29 days in leap years
+// 2 March – 31 days
+//     3 April – 30 days
+// 4 May – 31 days
+//     5 June – 30 days
+// 6 July – 31 days
+// 7 August – 31 days
+//     8 September – 30 days
+// 9 October – 31 days
+//     10 November – 30 days
+// 11 December – 31 days
+
+  function updateDOBSlide() {
+    var valYear = document.getElementById('sliderYear').value;
+    var valMth = document.getElementById('sliderMonth').value;
+    var elmDay = document.getElementById('sliderDay');
+    document.getElementById('retYear').innerHTML = valYear;
+    document.getElementById('retMonth').innerHTML = (parseInt(valMth) + 1) + " - " + nameMonth[parseInt(valMth)];
+
+    if (day31.indexOf(parseInt(valMth))>=0) {
+        // console.log("31");
+        elmDay.max = 31;
+    }
+    if (day30.indexOf(parseInt(valMth))>=0) {
+        // console.log("30");
+        elmDay.max = 30;
+    }
+    if (parseInt(valMth)==1) {
+        elmDay.max = checkLeapYear(parseInt(valYear));
+    }
+
+    document.getElementById('retDay').innerHTML = elmDay.value;
+
+    var customDOB = new Date(year=parseInt(valYear), month=parseInt(valMth), date=parseInt(elmDay.value));
+    elmResults.value = "";
+    elmResults.value = findZodiacInfoFromDOB(customDOB) + "\n\n" + strSep1 + "\n\n" + findAnimalFromDOB(customDOB) + "\n" + "=".repeat(7) + "\n" + findYearAndAgeByAnimal(findAnimalFromDOB(customDOB)) + "\n\n" + strSep1;
+    elmResults.value = elmResults.value + getCompatibility(findAnimalFromDOB(customDOB));
+  }
+
+  function listAllSigns() {
+        var selSigns = document.getElementById('sign').options;
+        document.getElementById('results').value="";
+        var animal = null;
+        for (var i=selSigns.length; i > 0; i--) {
+            animal = selSigns[i-1].value;
+            if(animal==null) {
+                animal = document.getElementById("sign").value;
+            }
+            elmResults.value = animal + "\n" + "=".repeat(7) + "\n" + findYearAndAgeByAnimal(animal) + getCompatibility(animal) + elmResults.value;
+        }
+  }
+  
+  (function () {  
+    //console.log(findZodiacInfoFromDOB("1985-01-02"));
+    //console.log("DOB: " + dateFromAge(36));
+    //var animal = "Dragon";
+    //console.log(animal + ":\n" + findYearAndAgeByAnimal(animal));
+
+    document.getElementById('sliderYear').value = new Date().getFullYear();
+    document.getElementById('sliderMonth').value = 0;
+    document.getElementById('sliderDay').value = 1;
+    
+    document.getElementById('retYear').innerHTML = document.getElementById('sliderYear').value;
+    document.getElementById('retMonth').innerHTML = (parseInt(document.getElementById('sliderMonth').value) + 1) + " - " + nameMonth[parseInt(document.getElementById('sliderMonth').value)];
+    document.getElementById('retDay').innerHTML = document.getElementById('sliderDay').value;
+    document.getElementById("retAge").innerHTML = document.getElementById("sliderAge").value;
+    listAllSigns();
+  })();
+
+  </script>
+
+
+</body>
+</html>
