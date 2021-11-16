@@ -15,8 +15,8 @@
 <body>
     <div class="container">
         <h1>
-            Sum DateTime to Single Digit [ <span id="retSingleDigit"></span> ]
-            <button type="button" class="btn btn-primary" onclick="initControls()">Today</button>
+            Sum to Single Digit [ <span id="retSingleDigit"></span> ]
+            <button type="button" class="btn btn-primary" onclick="initControls()">Use Current DateTime</button>
         </h1>
         <p>
             <span id="retCurrentDateTime"></span>
@@ -24,8 +24,17 @@
         <hr class="py-0">
 
         <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon3">Enter Number</span>
+            <input type="number" class="form-control" id="txtNumberSum" placeholder="1234567890" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');updateNumberSum()" aria-label="Number Sum" aria-describedby="button-numeric-sum">
+            <button class="btn btn-outline-secondary" type="button" id="button-numeric-sum" onclick="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');updateNumberSum()">Sum</button>
+            <span class="input-group-text" id="retSumNumToSingleDigit">0</span>
+        </div>
+      
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon3">Enter Date &amp; Time</span>
             <input type="datetime-local" class="form-control" id="dateTimePicker" placeholder="yyyy/mm/dd --:--" aria-label="Date Time Picker" aria-describedby="button-datetime">
             <button class="btn btn-outline-secondary" type="button" id="button-datetime" onclick="updateDatePicker()">Sum</button>
+            <span class="input-group-text" id="retSumDateToSingleDigit">0</span>
         </div>
         
         <hr class="py-0">
@@ -90,6 +99,25 @@
             return strDate;
         };
 
+        //// Javascript program to find sum of
+        //// digits of a number until
+        //// sum becomes single digit.
+        // let n = 0123456789 // Sum of 0123456789 = 9;
+        //// Function to get sum of digits
+        function getSum(n) {
+            let sum = 0;
+            while (n > 0 || sum > 9) {
+              if (n == 0) {
+                n = sum;
+                sum = 0;
+              }
+              sum = sum + n % 10;
+              n = Math.floor(n / 10);
+            }
+            return sum;
+        }
+
+      
         function sumDateTimeToDigit() {
             var arrDT = [ iYr, zeroPad(iMth), zeroPad(iDay), zeroPad(iHr), zeroPad(iMin), zeroPad(iSec) ];
             var strDateTime = arrDT.join("");
@@ -121,6 +149,7 @@
             getElm("dateTimePicker").value = `${iYr}-${zeroPad(iMth)}-${zeroPad(iDay)}T${zeroPad(iHr)}:${zeroPad(iMin)}`;
 
             getElm("retSingleDigit").innerHTML = sumDateTimeToDigit();
+            getElm("retSumDateToSingleDigit").innerHTML = sumDateTimeToDigit();
 
             getElm("retCurrentDateTime").innerHTML = new Date(year=iYr, month=iMth-1, date=iDay, hours=iHr, minutes=iMin, seconds=iSec);
         }
@@ -136,6 +165,12 @@
             updateAllControls();
         }
 
+        function updateNumberSum() {
+            var numSum = getElm("txtNumberSum").value;
+            getElm("retSingleDigit").innerHTML = getSum(numSum);
+            getElm("retSumNumToSingleDigit").innerHTML = getSum(numSum);
+        }
+      
         function updateDatePicker() {
             var dtVal = getElm("dateTimePicker").value;
             var dtDate = dtVal.split("T")[0].split("-");
