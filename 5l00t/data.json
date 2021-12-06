@@ -8,5 +8,10 @@
     "title": "Chinese Zodiac", 
     "url": "tool_zodiac.html",
     "description": "Chinese Zodiac"
+  },
+  {
+    "title": "World Clock and Timer", 
+    "url": "worldclock_and_timer.html",
+    "description": "World Clock and Timer"
   }
 ]
