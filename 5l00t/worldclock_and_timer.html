@@ -49,6 +49,15 @@
             text-align: center;
             margin: 0px;
         }
+
+        .map_icons{
+            padding: 0rem 2rem;
+        }
+
+        .map_icon {
+            width: 64px; 
+            height: auto;
+        }
     </style>
 
     <!--[if lt IE 9]>
@@ -63,9 +72,9 @@
     
     <table class="worldtime">
         <tr class="hrow">
-            <td>Malta</td>
-            <td>Tallinn</td>
-            <td>Riyadh</td>
+            <td>Valletta, Malta</td>
+            <td>Tallinn, Estonia</td>
+            <td>Riyadh, Saudi Arabia</td>
         </tr>
         <tr>
             <td><span id="Malta"></span></td>
@@ -73,7 +82,29 @@
             <td><span id="Riyadh"></span></td>
         </tr>
     </table>
-    
+    <br>
+    <br>
+    <table>
+        <tr>
+            <td class="map_icons"><a href="https://www.timeanddate.com/time/map/#!cities=214,242,240,255,224,33,136" target="_blank"  title="Time Zone Map"><img class="map_icon" src="img/emojigraph_org_globe-showing-europe-africa_1f30d.png" alt="Time Zone Map"></a></td>
+            <td class="map_icons"><a href="img/standard_timezones_of_the_world.png" target="_blank" title="Standard Time Zones with DST"><img class="map_icon" src="img/emojigraph_org_globe-showing-europe-africa_1f30d.png" alt="Standard Time Zones with DST"></a></td>
+            <td class="map_icons"><a href="img/5405d55887909032bc8016afe3f65796.jpg" target="_blank" title="World Map of Local Time Zones with DST"><img class="map_icon" src="img/emojigraph_org_globe-showing-europe-africa_1f30d.png" alt="World Map of Local Time Zones with DST"></a></td>
+            <td class="map_icons"><a href="img/world-time_3.webp" target="_blank" title="Worldwide Map of Local Time Zones"><img class="map_icon" src="img/emojigraph_org_globe-showing-europe-africa_1f30d.png" alt="Worldwide Map of Local Time Zones"></a></td>
+            <td class="map_icons"><a href="img/world-time_3.1.jpg" target="_blank"  title="Worldwide Map of Local Time Zones V2"><img class="map_icon" src="img/emojigraph_org_globe-showing-europe-africa_1f30d.png" alt="Worldwide Map of Local Time Zones V2"></a></td>
+        </tr>
+    </table>
+
+    <h2>https://www.timeanddate.com/</h2>
+    <p>
+        <a href="https://www.timeanddate.com/time/difference/" target="_blank">Time Difference between a Location and the World</a><br>
+        <a href="https://www.timeanddate.com/time/change/" target="_blank">Dates for Daylight Saving Time and Clock Changes – City Lookup</a><br>
+        <a href="https://www.timeanddate.com/time/zones/" target="_blank">Time Zone Abbreviations - Worldwide List</a>
+    </p>
+
+    <!-- <span style='font-size:100px;'>&#127759;</span> -->
+    <!-- <img src="img/emojigraph_org_globe-showing-americas_1f30e.png" style="width: 64px; height: auto;"> -->
+    <!-- <img src="img/emojigraph_org_globe-showing-asia-australia_1f30f.png" style="width: 64px; height: auto;"> -->
+
     <h1>Pomodoro Timer</h1>
     <h2 id="timerDisplay"></h2>
     <br>
@@ -101,7 +132,7 @@
     source: <a href="http://https://www.w3schools.com/howto/howto_js_countdown.asp">How TO - JavaScript Countdown Timer</a>
     <br>
     <br>
-    <iframe src="https://www.worldtimebuddy.com/?qm=1&lid=2562305,588409,108410,2147714&h=108410&date=2021-12-6&sln=8-19&hf=1" frameborder="0" style="width: 69rem; height: 27rem;"></iframe>
+    <iframe src="https://www.worldtimebuddy.com/?pl=1&lid=2562305,588409,108410,2147714&h=108410&hf=0" frameborder="0" style="width: 69rem; height: 25rem;"></iframe>
 
 
     <audio id='alarmTone'>
@@ -576,7 +607,7 @@
                     month -= -1
                 }
             }
-            return monthArray[month] + " " + day + ", " + year + "<br>" + hr + ":" + min + ":" + sec + "  [GMT " + zone + "]  DST"
+            return monthArray[month] + " " + day + ", " + year + "<br>" + hr + ":" + min + ":" + sec + "  [GMT " + (zone + 1) + "]  DST"
         } else {
             return monthArray[month] + " " + day + ", " + year + "<br>" + hr + ":" + min + ":" + sec + "  [GMT " + zone + "]"
         }
@@ -644,9 +675,9 @@
         document.getElementById("Brisbane").innerHTML = worldClock(10, "Brisbane")
         document.getElementById("Vladivostok").innerHTML = worldClock(10, "Europe")
         document.getElementById("Kamchatka").innerHTML = worldClock(12, "Europe")
-        document.getElementById("Riyadh").innerHTML = worldClock(3, "Riyadh")
-        document.getElementById("Tallinn").innerHTML = worldClock(2, "Tallinn")
-        document.getElementById("Malta").innerHTML = worldClock(1, "Malta")
+        document.getElementById("Riyadh").innerHTML = worldClock(3, "Saudi Arabia")
+        document.getElementById("Tallinn").innerHTML = worldClock(2, "Europe")
+        document.getElementById("Malta").innerHTML = worldClock(1, "Europe")
 
         setTimeout("worldClockZone()", 1000)
     }
