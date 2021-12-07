@@ -13,5 +13,10 @@
     "title": "World Clock and Timer", 
     "url": "worldclock_and_timer.html",
     "description": "World Clock and Timer"
+  },
+  {
+    "title": "Word Counter and Reading/Speaking Speeds", 
+    "url": "Calculate-Remainder-Word-Counter.html",
+    "description": "Word Counter and Reading/Speaking Speeds"
   }
 ]
