@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    .css-1kgrzi6-counters {
+      width: 50%;
+      display: grid;
+      grid-template-columns: repeat(6, 127px);
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+      background-color: rgb(255, 255, 255);
+    }
+
+    .css-kd73d7-borderRadius {
+      border-radius: 8px;
+    }
+
+    .css-ub4nvl-cell {
+      -moz-box-flex: 1;
+      flex-grow: 1;
+      flex-basis: 0px;
+      padding: 16px 0px;
+    }
+
+    .css-1kgrzi6-counters>* {
+      min-width: 0px;
+    }
+
+    .css-ub4nvl-cell:last-child .css-aq9ca6-counterContainer {
+      border-right-width: 0px;
+    }
+
+    .css-aq9ca6-counterContainer {
+      border-right: 1px solid rgba(0, 0, 0, 0.08);
+      border-right-width: 1px;
+      height: 100%;
+    }
+
+    .css-1ml279t-counter {
+      color: rgba(0, 0, 0, 0.66);
+      text-align: center;
+      padding: 0px 16px;
+      font-size: 13px;
+      line-height: 16px;
+    }
+
+    .css-1cbw7ct-counterDigit {
+      color: rgba(0, 0, 0, 0.87);
+      margin-bottom: 4px;
+      font-size: 28px;
+      line-height: 32px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- <h2>JavaScript Arithmetic</h2>
+  <p>A typical arithmetic operation takes two numbers (or expressions) and produces a new number.</p>
+
+  <p id="demo"></p> -->
+
+  <h1>Spoken and Reading Speeds</h1>
+  <!-- <p id="wpm">&nbsp;</p>
+  Words <input type="number" min=0 value=263 name="wordCount" id="wordCount" style="width: 85px;">&nbsp;
+  Speeds <select name="speedReadingSpeech" id="speedReadingSpeech"
+    onchange="wpm(document.getElementById('wordCount').value, document.getElementById('speedReadingSpeech').value);">
+    <option value="183">183 | Speech - M.Brysbaert</option>
+    <option value="238" selected>238 | Reading - M.Brysbaert - Non-Fiction</option>
+    <option value="260">260 | Reading - M.Brysbaert - Fiction</option>
+    <option value="100">100 | Speech - Slow</option>
+    <option value="130">130 | Speech - Average</option>
+    <option value="160">160 | Speech - Fast</option>
+    <option value="200">200 | Reading - Slow</option>
+    <option value="225">225 | Reading - Average</option>
+    <option value="250">250 | Reading - Fast</option>
+  </select>&nbsp;
+  <button
+    onclick="wpm(document.getElementById('wordCount').value, document.getElementById('speedReadingSpeech').value);">Calculate</button>
+  <br> -->
+  <table>
+    <thead>
+      <tr>
+        <th>
+          <h2>Input</h2>
+        </th>
+        <th>
+          <h2>Output</h2>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <textarea name="counter" id="wordsToCountInput" cols="80" rows="25" style="width: 600px;" oninput="remPunctuations();" onkeypress="remPunctuations();">
+The Milkmaid and Her Pail
+A girl was going to the market to sell a pail of milk. With the sale’s money, she plans to buy eggs, hatch some chickens and then sell them to buy even more animals and gain more money. However, she’s so distracted by her thoughts that she trips, the pail falls, and the milk spills.
+
+Having plans, ideas, and projects is a good thing, but paying attention to what’s ahead is even more. If you don’t do the things you’re supposed to do now, these projects will be just that: ideas that’ll never get made, without any profits to be made.</textarea>
+        </td>
+        <td>
+          <textarea name="counter" id="wordsToCountOutput" cols="80" rows="25" style="width: 600px;" readonly></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="padding: 25px 0px;">
+          <button onclick="remPunctuations();">Get Word Count</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- <br><br> -->
+  <!-- <div class="css-1kgrzi6-counters css-kd73d7-borderRadius">
+    <div class="css-ub4nvl-cell">
+      <div class="css-aq9ca6-counterContainer">
+        <div class="css-1ml279t-counter">
+          <div class="css-1cbw7ct-counterDigit" id="countWords">261</div>Words
+        </div>
+      </div>
+    </div>
+    <div class="css-ub4nvl-cell">
+      <div class="css-aq9ca6-counterContainer">
+        <div class="css-1ml279t-counter">
+          <div class="css-1cbw7ct-counterDigit" id="countChars">1,639</div>Characters
+        </div>
+      </div>
+    </div>
+    <div class="css-ub4nvl-cell">
+      <div class="css-aq9ca6-counterContainer">
+        <div class="css-1ml279t-counter">
+          <div class="css-1cbw7ct-counterDigit" id="countCharsNoSpace">1,379</div>Characters without space
+        </div>
+      </div>
+    </div> -->
+  <!-- <div class="css-ub4nvl-cell">
+      <div class="css-aq9ca6-counterContainer">
+        <div class="css-1ml279t-counter">
+          <div class="css-1cbw7ct-counterDigit">474</div>Syllables
+        </div>
+      </div>
+    </div>
+    <div class="css-ub4nvl-cell">
+      <div class="css-aq9ca6-counterContainer">
+        <div class="css-1ml279t-counter">
+          <div class="css-1cbw7ct-counterDigit">1</div>Sentence
+        </div>
+      </div>
+    </div>
+    <div class="css-ub4nvl-cell">
+      <div class="css-aq9ca6-counterContainer">
+        <div class="css-1ml279t-counter">
+          <div class="css-1cbw7ct-counterDigit">1</div>Paragraph
+        </div>
+      </div>
+    </div> -->
+  <!-- </div> -->
+  <!-- <br><br> -->
+
+  <table border="0">
+    <thead>
+      <tr>
+        <th>
+          <h2>M.Brysbaert Reading Speeds</h2>
+        </th>
+        <th>
+          <h2>Statistics</h2>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="width: 605px;">
+          Non-Fiction: <br>
+          <div id="readingNF" style="margin: 0px; padding: 0px; width: 230px; text-align: center; font-weight: bold;">
+            &nbsp;
+          </div>
+          175&nbsp;&nbsp;<input type="range" min=175 max=300 value=238 name="readingNonFiction" id="readingNonFiction"
+            oninput="document.getElementById('readingNF').innerHTML = this.value;">&nbsp;&nbsp;300
+          <br>
+          <br>
+          Fiction: <br>
+          <div id="readingF" style="margin: 0px; padding: 0px; width: 230px; text-align: center; font-weight: bold;">
+            &nbsp;
+          </div>
+          200&nbsp;&nbsp;<input type="range" min=200 max=320 value=260 name="readingFiction" id="readingFiction"
+            oninput="document.getElementById('readingF').innerHTML = this.value;">&nbsp;&nbsp;320
+          <br>
+          <br>
+          By Age and Grade: <br>
+          <div id="readingR" style="margin: 0px; padding: 0px; width: 230px; text-align: center; font-weight: bold;">
+            &nbsp;
+          </div>
+          53&nbsp;&nbsp;<input type="range" min=53 max=350 value=202 name="readingFiction" id="readingFiction"
+            oninput="document.getElementById('readingR').innerHTML = this.value;">&nbsp;&nbsp;350
+        </td>
+        <td>
+          <textarea name="stats" id="stats" cols="80" rows="25" style="width: 600px;" readonly></textarea>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <h1><a href="https://youaremom.com/play-time/activities-and-games-for-kids/childrens-stories/short-fables/">5 Short
+      Fables About Important Values for Children - You are Mom</a></h1>
+
+  <h2>The Milkmaid and Her Pail</h2>
+  Words: 101 | Reading Time: 0 Min(s), 25 Sec(s)
+  <br>
+  <p>
+    A girl was going to the market to sell a pail of milk. With the sale’s money, she plans to buy eggs, hatch some
+    chickens and then sell them to buy even more animals and gain more money. However, she’s so distracted by her
+    thoughts that she trips, the pail falls, and the milk spills.
+  </p>
+  <p>
+    Having plans, ideas, and projects is a good thing, but paying attention to what’s ahead is even more. If you don’t
+    do the <a href="https://www.lifehack.org/articles/work/you-dont-know-what-with-your-life-read-this.html">things
+      you’re supposed to do now</a>, these projects will be just that: ideas that’ll never get made, without any
+    profits to be made.
+  </p>
+
+  <h2>The Ant and the Grasshopper</h2>
+  Words: 122 | Reading Time: 0 Min(s), 31 Sec(s)
+  <br>
+  <p>
+    This fable tells a similar story to the first one, but from a different point of view. In this case, the grasshopper
+    spends its summer singing while the ant keeps working, saving food for winter. Then, what happens when winter comes?
+    The grasshopper has nothing to eat and it asks the ant for help, but the ant refuses to do so.
+  </p>
+  <p>
+    The lesson here isn’t about not helping others, but rather avoiding being lazy like the grasshopper. For example, if
+    you teach your children to be persistent and help them <a
+      href="https://youaremom.com/parenting/create-good-study-habits-children/">create good study habits</a>, they’ll
+    focus
+    more and it’ll pay off in the long run.
+  </p>
+  <p>
+    Over the years, goals aren’t as easy to achieve, so they’ll also develop their sense of responsibility.
+  </p>
+
+  <h2>The Hare and the Tortoise</h2>
+  Words: 94 | Reading Time: 0 Min(s), 24 Sec(s)
+  <br>
+  <p>
+    In a race between these two animals, you can sense who’s going to win. But against all odds, in this fable, the
+    tortoise wins. The hare is so sure it’ll win that it evens stops to sleep during the race. However, it sleeps for so
+    long that it can’t reach the finish line on time, before the tortoise.
+  </p>
+  <p>
+    Looks can be deceiving and <a
+      href="https://www.psychologytoday.com/intl/blog/fulfillment-any-age/201403/the-high-cost-vanity">vanity is an
+      enemy</a>. Children shouldn’t compare themselves to their teammates. Winning or losing, having the best grades…
+    it’s not what’s truly important. What really matters is the effort one makes.
+  </p>
+
+  <h2>The Lion and the Mouse</h2>
+  Words: 121 | Reading Time: 0 Min(s), 31 Sec(s)
+  <br>
+  <p>
+    One day, a mouse wakes a huge lion up and asks it to let it live. In return, the mouse will help the lion whenever
+    it needs. How could a mouse help a fierce lion? The lion couldn’t answer that either, but it let the mouse go.
+  </p>
+  <p>
+    A while later, some hunters captured the lion, so it roared as loud as it could to ask for help. The mouse heard it
+    and it gnawed the ropes to free the lion.
+  </p>
+  <p>
+    The moral of the story is how important it is to <a
+      href="https://youaremom.com/parenting/childrens-good-behavior/">treat others well</a> because you never know
+    when you might need their help. Helping without expecting something in return is also one of the basic pillars of
+    creating strong friendships.
+  </p>
+
+  <h2>The Hen that Laid Golden Eggs</h2>
+  Words: 99 | Reading Time: 0 Min(s), 25 Sec(s)
+  <br>
+  <p>
+    Try to imagine you have a hen and, from time to time, it lays a golden egg. If this happens, it must be because the
+    hen has gold inside, right?
+  </p>
+  <p>
+    Well, this is what the owners of the hen thought, but to their surprise, when they killed it, they found no gold
+    inside. Therefore, they were out of golden eggs and the hen.
+  </p>
+  <p>
+    <a href="https://youaremom.com/children/teach-children-patience/">Greediness and impatience</a> make us lose our
+    way. Sometimes, conforming and taking care of what you have is the best you can do, because you can lose everything
+    you have in the blink of an eye.
+  </p>
+
+  <hr>
+
+  <div class="preview__inner-2" style="padding: 10px 25px;">
+    <div class="cl-preview-section">
+      <h2 id="average-reading-speed-by-age-and-grade-level">Average Reading Speed by Age and Grade Level</h2>
+    </div>
+    <div class="cl-preview-section">
+      <p>The chart below includes the average reading fluency rates by grade level and age.</p>
+    </div>
+    <div class="cl-preview-section">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th align="right">GRADE LEVEL</th>
+              <th align="center">AGE</th>
+              <th align="right">WORDS-PER-MINUTE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td align="right">1ST GRADE (SPRING)</td>
+              <td align="right">6 - 7 YEARS OLD</td>
+              <td align="right">53 – 111 WPM</td>
+            </tr>
+            <tr>
+              <td align="right">2ND GRADE (SPRING)</td>
+              <td align="right">7 - 8 YEARS OLD</td>
+              <td align="right">89 – 149 WPM</td>
+            </tr>
+            <tr>
+              <td align="right">3RD GRADE (SPRING)</td>
+              <td align="right">8 - 9 YEARS OLD</td>
+              <td align="right">107 – 162 WPM</td>
+            </tr>
+            <tr>
+              <td align="right">4TH GRADE (SPRING)</td>
+              <td align="right">9 - 10 YEARS OLD</td>
+              <td align="right">123 – 180 WPM</td>
+            </tr>
+            <tr>
+              <td align="right">5H GRADE (SPRING)</td>
+              <td align="right">10 - 11 YEARS OLD</td>
+              <td align="right">139 – 194 WPM</td>
+            </tr>
+            <tr>
+              <td align="right">6TH - 8TH GRADE (SPRING)</td>
+              <td align="right">11, 12, 13, 14 YEARS OLD</td>
+              <td align="right">150 – 204 WPM</td>
+            </tr>
+            <tr>
+              <td align="right">HIGHSCHOOL</td>
+              <td align="right">14, 15, 16, 17, 18 YEARS OLD</td>
+              <td align="right">200 – 300 WPM</td>
+            </tr>
+            <tr>
+              <td align="right">COLLEGE</td>
+              <td align="right">18 - 23 YEARS OLD</td>
+              <td align="right">300 – 350 WPM</td>
+            </tr>
+            <tr>
+              <td align="right">ADULTS</td>
+              <td align="right"></td>
+              <td align="right">220 – 350 WPM</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="cl-preview-section">
+      <p>Hasbrouck, J. &amp; Tindal, G. (2017) – Brysbaert, M. (2019)</p>
+    </div>
+  </div>
+
+  <hr>
+  <p>
+  <h1>How many words do we read per minute? A review and meta-analysis of reading rate | Marc Brysbaert 2019</h1>
+  <h2>Highlights</h2>
+  <ul>
+    <li>For English silent reading it is:
+      <ul>
+        <li>238 words per minute for non-fiction, and</li>
+        <li>260 words per minute for fiction.</li>
+      </ul>
+    <li>For English reading aloud it is 183 words per minute.</li>
+  </ul>
+  <h2>Abstract</h2>
+  <div style="width: 50%;">
+    Based on the analysis of 190 studies (18,573 participants), we estimate that the average silent reading rate for
+    adults in English is 238 words per minute (wpm) for non-fiction and 260 wpm for fiction. The difference can be
+    predicted by taking into account the length of the words, with longer words in non-fiction than in fiction. The
+    estimates are lower than the numbers often cited in scientific and popular writings. The reasons for the
+    overestimates are reviewed. The average oral reading rate (based on 77 studies and 5965 participants) is 183 wpm.
+    Reading rates are lower for children, old adults, and readers with English as second language. The reading rates are
+    in line with maximum listening speed and do not require the assumption of reading-specific language processing.
+    Within each group/task there are reliable individual differences, which are not yet fully understood. For silent
+    reading of English non-fiction most adults fall in the range of 175–300 wpm; for fiction the range is 200–320 wpm.
+    Reading rates in other languages can be predicted reasonably well by taking into account the number of words these
+    languages require to convey the same message as in English.
+  </div>
+  <br>
+  <a href="https://www.sciencedirect.com/science/article/abs/pii/S0749596X19300786?via%3Dihub"
+    target="_blank">https://www.sciencedirect.com/science/article/abs/pii/S0749596X19300786?via%3Dihub</a>
+  </p>
+  <p>
+    <a href="https://wordcount.com/" target="_blank">https://wordcount.com/</a> | 241 - Words | 1,661 - Characters |
+    1,401 - Characters without space | 468 - Syllables | 9 - Sentences | 11 - Paragraphs <br>
+
+    <a href="https://niram.org/read/" target="_blank">https://niram.org/read/</a> | Estimated reading time: 1 minute, 12
+    seconds. Contains 243 words <br>
+
+    <a href="https://thereadtime.com/" target="_blank">https://thereadtime.com/</a> | Read Time: 1 mins 6 secs | Speech
+    Time: 1 mins 26 secs | Word Count: 263 <br>
+
+    <a href="https://remarkablemark.org/blog/2019/09/28/javascript-remove-punctuation/">Remove punctuation with
+      JavaScript | remarkablemark</a> <br>
+
+    <a href="https://grammar.yourdictionary.com/punctuation/what/fourteen-punctuation-marks.html">What Are the 14
+      Punctuation Marks in English Grammar?</a> <br>
+
+    <a href="https://cascadiaauthorservices.com/list-of-punctuation-marks-pdf/">A Comprehensive List of Punctuation
+      Marks | Cascadia Author Services</a> <br>
+
+    <a href="https://en.wikipedia.org/wiki/List_of_typographical_symbols_and_punctuation_marks">List of typographical
+      symbols and punctuation marks - Wikipedia</a> <br>
+
+    <a href="https://punctuationmarks.org/">List of Punctuation Marks with Rules and Examples - Punctuation Marks</a>
+    <br>
+  </p>
+
+  <hr>
+
+
+  <h2 id="how-to-calculate-estimated-reading-time">How To Calculate Estimated Reading Time</h2>
+  <p>Research varies, but generally, the average adult reads 200-250 words in one minute. </p>
+  <p><strong>AvgSlow</strong> : 200 wpm<br><strong>AvgMedium</strong>: 225 wpm<br><strong>AvgFast</strong> : 250 wpm
+  </p>
+  <p>Convert words into minutes here, some decimals into seconds there, a little rounding at the end… and you can
+    calculate estimated time to read manually. </p>
+  <p>Here’s how: </p>
+  <ol>
+    <li>Find your total word count. Let’s say it’s 938 words. </li>
+    <li>Divide your total word count by 200. You’ll get a decimal number, in this case, 4.69. </li>
+    <li>The first part of your decimal number is your minute. In this case, it’s 4. </li>
+    <li>Take the second part - the decimal points - and multiply that by 0.60. Those are your seconds. Round up or down
+      as necessary to get a whole second. In this case, 0.69 x 0.60 = 0.414. We’ll round that to 41 seconds.</li>
+  </ol>
+  <p>The result? 938 words = a 4 minute, 41 second read. </p>
+  <p>But that’s really specific. Why not round that time to make things simpler for your reader? Anything less than 30
+    seconds gets ignored; anything more than 30 seconds gets rounded up to the next minute. </p>
+  <p>Ta-da! That rounding makes your 938-word article a 5-minute read. </p>
+  <p>Source: <a
+      href="https://martech.org/estimated-reading-times-increase-engagement/">https://martech.org/estimated-reading-times-increase-engagement/</a>
+  </p>
+  <hr>
+  <h2 id="words-to-minutes">Words to Minutes</h2>
+  <p><strong>Slow</strong>: 100 wpm<br><strong>Avg</strong> : 130 wpm<br><strong>Fast</strong>: 160 wpm </p>
+  <p>Overview of minutes for a speech (based on average reading speed) </p>
+  <pre><code>how long is a 1 minute speech :  130 words  
+how long is a 2 minute speech :  260 words  
+how long is a 3 minute speech :  390 words  
+how long is a 4 minute speech :  520 words  
+how long is a 5 minute speech :  650 words  
+how long is a 10 minute speech: 1300 words  
+how long is a 20 minute speech: 2600 words  
+
+how long does it take to read 200 words :  1.5 minutes  
+how long does it take to read 300 words :  2.3 minutes  
+how long does it take to read 500 words :  3.8 minutes  
+How long does it take to read 750 words :  5.8 minutes  
+how long does it take to read 1000 words:  7.6 minutes  
+how long does it take to read 1200 words:  9.2 minutes  
+how long does it take to read 1500 words: 11.5 minutes  
+How long does it take to read 1800 words: 13.8 minutes  
+how long does it take to read 2000 words: 15.3 minutes  
+How long does it take to read 3000 words: 23.1 minutes  
+</code></pre>
+  <p>Source: <a href="https://wordrepeater.com/words-to-minutes.php">https://wordrepeater.com/words-to-minutes.php</a>
+  </p>
+  <hr>
+  <h2 id="pages-per-hour-average-reading-speed-college-students">Pages Per Hour Average Reading Speed (College Students)
+  </h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Hours</th>
+        <th>Pages</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>6</td>
+        <td>120</td>
+      </tr>
+      <tr>
+        <td>12</td>
+        <td>240</td>
+      </tr>
+      <tr>
+        <td>18</td>
+        <td>360</td>
+      </tr>
+      <tr>
+        <td>24</td>
+        <td>480</td>
+      </tr>
+      <tr>
+        <td>30</td>
+        <td>600</td>
+      </tr>
+      <tr>
+        <td>36</td>
+        <td>720</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>*Average text page = 800 words</p>
+  <h2 id="average-reading-speed-by-age-and-grade-level">Average Reading Speed by Age and Grade Level</h2>
+  <p>The chart below includes the average reading fluency rates by grade level and age. </p>
+  <table>
+    <thead>
+      <tr>
+        <th align="right">GRADE LEVEL</th>
+        <th align="center">AGE</th>
+        <th align="center">WORDS-PER-MINUTE</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td align="right">1ST GRADE (SPRING)</td>
+        <td align="center">6-7 YEARS OLD</td>
+        <td align="center">53 – 111 WPM</td>
+      </tr>
+      <tr>
+        <td align="right">2ND GRADE (SPRING)</td>
+        <td align="center">7-8 YEARS OLD</td>
+        <td align="center">89 – 149 WPM</td>
+      </tr>
+      <tr>
+        <td align="right">3RD GRADE (SPRING)</td>
+        <td align="center">8-9 YEARS OLD</td>
+        <td align="center">107 – 162 WPM</td>
+      </tr>
+      <tr>
+        <td align="right">4TH GRADE (SPRING)</td>
+        <td align="center">9-10 YEARS OLD</td>
+        <td align="center">123 – 180 WPM</td>
+      </tr>
+      <tr>
+        <td align="right">5H GRADE (SPRING)</td>
+        <td align="center">10-11 YEARS OLD</td>
+        <td align="center">139 – 194 WPM</td>
+      </tr>
+      <tr>
+        <td align="right">6TH - 8TH GRADE (SPRING)</td>
+        <td align="center">11, 12, 13, 14 YEARS OLD</td>
+        <td align="center">150 – 204 WPM</td>
+      </tr>
+      <tr>
+        <td align="right">HIGHSCHOOL</td>
+        <td align="center">14, 15, 16, 17, 18 YEARS OLD</td>
+        <td align="center">200 – 300 WPM</td>
+      </tr>
+      <tr>
+        <td align="right">COLLEGE</td>
+        <td align="center">18 - 23 YEARS OLD</td>
+        <td align="center">300 – 350 WPM</td>
+      </tr>
+      <tr>
+        <td align="right">ADULTS</td>
+        <td align="center"></td>
+        <td align="center">220 – 350 WPM</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Hasbrouck, J. &amp; Tindal, G. (2017) – Brysbaert, M. (2019)</p>
+  <hr>
+  <h2 id="how-long-should-my-text-be-typical-word-counts-for">How long should my text be? Typical word counts for:</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Social networks</th>
+        <th align="right">Characters</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Twitter post</td>
+        <td align="right">71–100</td>
+      </tr>
+      <tr>
+        <td>Facebook post</td>
+        <td align="right">80</td>
+      </tr>
+      <tr>
+        <td>Instagram caption</td>
+        <td align="right">100</td>
+      </tr>
+      <tr>
+        <td>YouTube description</td>
+        <td align="right">138–150</td>
+      </tr>
+    </tbody>
+  </table>
+  <table>
+    <thead>
+      <tr>
+        <th>Essays</th>
+        <th align="right">Words</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>High school</td>
+        <td align="right">300–1,000</td>
+      </tr>
+      <tr>
+        <td>College admission</td>
+        <td align="right">200–650</td>
+      </tr>
+      <tr>
+        <td>Undergraduate college</td>
+        <td align="right">1,500–5,000</td>
+      </tr>
+      <tr>
+        <td>Graduate school admission</td>
+        <td align="right">500–1,000</td>
+      </tr>
+    </tbody>
+  </table>
+  <table>
+    <thead>
+      <tr>
+        <th>Blogs, work and literature</th>
+        <th align="right">Words</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>LinkedIn article</td>
+        <td align="right">1,900–2,000</td>
+      </tr>
+      <tr>
+        <td>Blog posts</td>
+        <td align="right">500–800</td>
+      </tr>
+      <tr>
+        <td>Cover letters</td>
+        <td align="right">200–400</td>
+      </tr>
+      <tr>
+        <td>Resumes</td>
+        <td align="right">400–800</td>
+      </tr>
+      <tr>
+        <td>Short stories</td>
+        <td align="right">~7,500</td>
+      </tr>
+      <tr>
+        <td>Novellas</td>
+        <td align="right">~17,500–40,000</td>
+      </tr>
+      <tr>
+        <td>Novels</td>
+        <td align="right">~70,000–120,000</td>
+      </tr>
+    </tbody>
+  </table>
+  <table>
+    <thead>
+      <tr>
+        <th>Popular works</th>
+        <th align="right">Words</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>A Game of Thrones</td>
+        <td align="right">298,000</td>
+      </tr>
+      <tr>
+        <td>Harry Potter and the Philosopher&#39;s Stone</td>
+        <td align="right">76,944</td>
+      </tr>
+      <tr>
+        <td>Lord of the Rings: The Fellowship of the Ring</td>
+        <td align="right">187,790</td>
+      </tr>
+      <tr>
+        <td>Animal Farm</td>
+        <td align="right">29,966</td>
+      </tr>
+      <tr>
+        <td>Infinite Jest</td>
+        <td align="right">483,994</td>
+      </tr>
+      <tr>
+        <td>Ulysses</td>
+        <td align="right">265,222</td>
+      </tr>
+      <tr>
+        <td>Of Mice and Men</td>
+        <td align="right">29,160</td>
+      </tr>
+      <tr>
+        <td>Pride and Prejudice</td>
+        <td align="right">122,685</td>
+      </tr>
+      <tr>
+        <td>Atlas Shrugged</td>
+        <td align="right">561,996</td>
+      </tr>
+      <tr>
+        <td>The Great Gatsby</td>
+        <td align="right">47,094</td>
+      </tr>
+      <tr>
+        <td>The Lion, the Witch and the Wardrobe</td>
+        <td align="right">38,421</td>
+      </tr>
+      <tr>
+        <td>Charlie and the Chocolate Factory</td>
+        <td align="right">30,644</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Source: <a href="https://wordcount.com/">https://wordcount.com/</a></p>
+  <hr>
+  <h2 id="average-speaking-rate-and-words-per-minute">Average Speaking Rate and Words per Minute</h2>
+  <p>Source: <a
+      href="https://virtualspeech.com/blog/average-speaking-rate-words-per-minute">https://virtualspeech.com/blog/average-speaking-rate-words-per-minute</a>
+  </p>
+  <p>John F. Kennedy&#39;s Inaugural Address, where he slowed his usually very high speaking rate down to below 100 wpm
+    (his average was well above 150 wpm).</p>
+  <h2 id="what-is-the-average-speaking-rate">What is the average speaking rate?</h2>
+  <p>The average speaking rate changes dramatically for the purpose of your speech. According to the National Center for
+    Voice and Speech, the <a href="http://www.ncvs.org/ncvs/tutorials/voiceprod/tutorial/quality.html">average
+      conversation rate</a> for English speakers in the United States is about <strong>150 wpm</strong>. However for
+    radio presenters or podcasters, the wpm is higher.</p>
+  <h3 id="here-is-a-list-of-average-speech-rates-for-different-activities">Here is a list of average speech rates for
+    different activities.</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Activity</th>
+        <th>Average speech rates</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Presentations</td>
+        <td>between 100 - 150 wpm for a comfortable pace</td>
+      </tr>
+      <tr>
+        <td>Conversational</td>
+        <td>between 120 - 150 wpm</td>
+      </tr>
+      <tr>
+        <td>Audiobooks</td>
+        <td>between 150 - 160 wpm, which is the upper range that people comfortably hear and vocalise words</td>
+      </tr>
+      <tr>
+        <td>Radio hosts and podcasters</td>
+        <td>between 150 - 160 wpm</td>
+      </tr>
+      <tr>
+        <td>Auctioneers</td>
+        <td>can speak at about 250 wpm</td>
+      </tr>
+      <tr>
+        <td>Commentators</td>
+        <td>between 250- 400 wpm</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>To give these speech rates some context, if the speaking pace is 130 words per minute, you’ll finish reading an A4
+    page (Calibri, font size 11) in 4 minutes, 51 seconds (~630 words).</p>
+  <h2 id="a-comparison-of-words-per-minute-for-popular-ted-talks">A comparison of words per minute for popular TED Talks
+  </h2>
+  <p>Lets compare different presentation styles to show you how speech rates can vary widely. We’ll use popular TED
+    Talks to compare words per minute for different presentations.</p>
+  <p>We’ve analysed five TED Talks, ranging from short speeches up to 22 minutes. When we were calculating the length of
+    the presentation, we included time when the audience was clapping and when the presenter changed slides.</p>
+  <p>We tried to pick from a wide range of speech topics to get a unbiased average.</p>
+  <p>The average speaking rate was 173 words per minute.</p>
+  <p>The speaking rate ranged from 154 to 201 words per minute.</p>
+  <h3 id="popular-ted-talk-speaking-rates">Popular TED Talk speaking rates</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Presentation</th>
+        <th>Speaker</th>
+        <th align="right">WPM</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Why we do what we do</td>
+        <td>Tony Robbins</td>
+        <td align="right">201 wpm</td>
+      </tr>
+      <tr>
+        <td>The power of introverts</td>
+        <td>Susan Cain</td>
+        <td align="right">176 wpm</td>
+      </tr>
+      <tr>
+        <td>How great leaders inspire action</td>
+        <td>Simon Sinek</td>
+        <td align="right">170 wpm</td>
+      </tr>
+      <tr>
+        <td>Do schools kill creativity?</td>
+        <td>Sir Ken Robinson</td>
+        <td align="right">165 wpm</td>
+      </tr>
+      <tr>
+        <td>The power of vulnerability</td>
+        <td>Brené Brown</td>
+        <td align="right">154 wpm</td>
+      </tr>
+    </tbody>
+  </table>
+  <hr>
+  <h2 id="what-is-the-average-reading-speed">What Is the Average Reading Speed?</h2>
+  <p><a href="https://www.livescience.com/5780-speed-thought-speech-traced-brain.html">We form thoughts</a> at around
+    1000 – 3000 words per minute, which gives the average listener lots of time to wool-gather, plan menus, and argue
+    with the speaker.</p>
+  <hr>
+  <h2 id="words-to-minutes---speech-and-reading-time-calculator">Words to Minutes - Speech and Reading Time Calculator
+  </h2>
+  <p>Source: https://educat.tools/words-to-minutes </p>
+  <p>Harvard Business Review <a href="https://hbr.org/2012/10/do-your-slides-pass-the-glance-test">states</a> that
+    people should be able to comprehend your slides and their meanings within three seconds, and the average attention
+    span of an audience is around twenty minutes. That being so, you should not linger on one slide and the overall
+    speech for too long.</p>
+  <h2 id="preparing-an-effective-presentation">Preparing an Effective Presentation</h2>
+  <h4 id="brad-vander-zanden--university-of-tennessee">Brad Vander Zanden | University of Tennessee</h4>
+  <p>Source: http://web.eecs.utk.edu/~bvanderz/presentation.html </p>
+  <p>The following advice for preparing and presenting a talk will help you maximize the impact of your talk on an
+    audience and ensure that at a minimum they remember the take-away points of your talk. The points apply equally to
+    research talks, lectures, and non-technical presentations.</p>
+  <h3 id="length-of-presentation">Length of Presentation</h3>
+  <ol>
+    <li>The average attention span of an adult is 20 minutes.<ol>
+        <li><strong>Implication:</strong> you should ensure that the first 20 minutes of your talk include any material
+          that you want your audience to remember.</li>
+        <li><strong>Check it out:</strong> The next time you attend a talk look around after 25 minutes and see how many
+          people are doing other things, such as doodling, looking at laptops, reading papers, or dozing.</li>
+      </ol>
+    </li>
+    <li><strong>Prolonging Attention Span:</strong> You can prolong attention spans by periodically giving your audience
+      a rest. This can be done by telling a story, giving a demo, or doing something else that gives the brain a break.
+      An analogy to what you are doing is running hard for a few minutes, taking a break, then running hard again.
+      However, just as you will typically not be able to run for as long after the break you cannot expect the renewed
+      attention span to last as long after the &quot;break&quot;. In fact, count on having only a couple of minutes.
+    </li>
+  </ol>
+  <h3 id="presentation-content">Presentation Content</h3>
+  <ol>
+    <li><strong>The 4 Golden Questions:</strong> Every research presentation should answer the following four questions:
+      <ol>
+        <li><strong>Where are we now?:</strong> In other words what is the current state of the art before you started
+          your research. Answering the question &quot;Where are we now?&quot; will help define for the audience the
+          problem your research addresses.</li>
+        <li><strong>Where are we going?:</strong> The answer to this question tells the audience what you accomplished.
+          It should be a high-level, concise description, not a detailed description. Make sure that you answer this
+          question in the first couple minutes of your talk. There is an old saying in the newspaper industry that you
+          should not bury the headline in the article. The same is true of your talk. Do not bury the main results in
+          the middle of the talk. Not only might the audience miss them but you might be past your audience&#39;s 20
+          minute attention span and they&#39;ll have already tuned you out.</li>
+        <li><strong>How did we get there?:</strong> Now you can get detailed and describe the methods/techniques you
+          used or invented to solve your problem.</li>
+        <li><strong>What is left for the future?:</strong> At the end of your talk you should clearly state what
+          problems are not addressed by your research and are deferred to the future.</li>
+      </ol>
+    </li>
+  </ol>
+  <p>A good talk will provide brief answers to the first three questions in the introduction and then hit the
+    &quot;where are we now&quot; and &quot;how did we get there&quot; questions in more detail in the rest of the talk.
+  </p>
+  <ol>
+    <li>When you change topics, summarize what you have discussed thus far and how that relates to what you are about to
+      discuss next. This transition serves three purposes:<ol>
+        <li>It provides a &quot;break&quot; for the audience</li>
+        <li>It sharpens your presentation by clearly separating topics</li>
+        <li>It gives listeners who have tuned you out a chance to get back into the talk.</li>
+      </ol>
+    </li>
+    <li>Introduce concrete examples before formal algorithms: Audiences grasp algorithms much better if you work through
+      a concrete example using the algorithm before presenting its formal specification.</li>
+    <li>Do a demo before discussing a software system in depth: The same principle that applies to algorithms applies to
+      software systems. Listeners will have a much better idea of what you&#39;re talking about if you demo your system
+      before explaining implementation decisions.</li>
+  </ol>
+  <h3 id="presentation-format">Presentation Format</h3>
+  <ol>
+    <li><strong>Fonts</strong>
+      <ol>
+        <li>
+          <p><strong>Font Size</strong></p>
+          <ol>
+            <li>For large audiences use a font size of 18 or greater</li>
+            <li>For small audiences use a font size of 14 or greater</li>
+          </ol>
+        </li>
+        <li>
+          <p><strong>Font Family:</strong> Use a sans-serif font like Helvetica. The curls that make serif fonts like
+            Times Roman look so nice in printed reports will cause blurring and eye strain when projected to a large
+            audience.</p>
+        </li>
+        <li>
+          <p><strong>Font Style/Color</strong></p>
+          <ol>
+            <li>Use a plain font unless you wish to specifically highlight a point</li>
+            <li>Do not use colors to &quot;spice up&quot; your presentation unless you wish to emphasize a point. The
+              human eye is naturally drawn to changes in color so color can be useful for emphasizing a point. However
+              if you use color indiscriminately then at best you are cluttering your presentation and at worst you are
+              wrecking the listener&#39;s concentration.<ol>
+                <li>An example of indiscriminate use of color is to color consecutive bullets differently so that your
+                  presentation has &quot;variety&quot;.</li>
+                <li>An example of the effective use of color is to use one color for the header topic on the slide and a
+                  different color for the bullets on the slide. The change of color will highlight the header and draw
+                  the listener&#39;s eye to the header, which is the first thing you want the listener to read</li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <p><strong>Slides</strong></p>
+          <ol>
+            <li>The average time spent per slide at talks that I have attended tends to be 1-2 minutes. When preparing a
+              talk for a particular duration you can divide the duration by this average to come up with the approximate
+              number of slides you should use.</li>
+            <li>Limit the number of bullets per slide to five or fewer. There are two reasons for doing so:<ol>
+                <li>To reduce the clutter on the slide</li>
+                <li>To handle the limitations of short term memory<ol>
+                    <li>Most people can hold 5-7 items in short term memory.</li>
+                    <li>If you have five bullets on your slide then the majority of your audience can remember the
+                      points you&#39;re making without re-reading your slide. If you have more than 5 items per slide
+                      than some of your audience will be re-reading your slide and not listening to you, thus missing
+                      presumably important information.</li>
+                  </ol>
+                </li>
+                <li>Make bullets short and snappy. Do not use complete sentences unless stating a point that requires
+                  precision, such as a theorem or definition.<ol>
+                    <li>Most people read all the text on a slide before they start paying attention to what you are
+                      saying. Hence the more text you have in your bullets the longer it will take for people to start
+                      listening to you. If they take too long they might completely lose the thread of thought on that
+                      slide which can easily lead to a loss of concentration for your entire talk, especially if you are
+                      past the 20 minute threshold.</li>
+                  </ol>
+                </li>
+              </ol>
+            </li>
+            <li><strong>Color contrasts:</strong> A light font color on a dark background is preferable to a dark font
+              color on a light background because the dark background will result in less glare.<ol>
+                <li>Yellow or white on a blue or black background tends to work best. Consider using one of yellow/white
+                  for the header and the other for the bullets.</li>
+                <li>Do not clutter your background with fancy patterns or graphics (e.g., your university&#39;s
+                  logo--everyone should know where you are from from your first slide): They will only clutter your
+                  slides, distract the listener from the main point of the presentation and, in the case of fancy
+                  patterns, possibly even reduce the readability of your text.<ol>
+                    <li>it is okay to use subtle background patterns as long as they are unobtrusive.</li>
+                  </ol>
+                </li>
+                <li>When juxtaposing colors, try to use colors from opposite sides of the rainbow. Colors that are close
+                  to one another will appear to blur together and provide poor contrast. For example, yellow appears
+                  much clearer next to black or blue than it does to green. If you&#39;ve forgotten the rainbow an easy
+                  way to remember it is as Roy G. Biv (red, orange, yellow, green, blue, indigo, violet).</li>
+              </ol>
+            </li>
+            <li><strong>A picture is worth a thousand words:</strong> When possible use pictures to emphasize your
+              points rather than text. Pictures can succinctly convey information about processes, algorithms, and
+              software interfaces that could take hundreds of words to convey. You will also use words to explain the
+              pictures so your verbally oriented listeners can focus on your words while your visually oriented
+              listeners can focus on the picture. If you use text only then your visually oriented listeners will be
+              disadvantaged.<ol>
+                <li>Do not use meaningless pictures (e.g., whimsical pictures) to make your slides more interesting. If
+                  you use a picture it should reinforce the point you are making on the slide. Random pictures simply
+                  distract your listener and clutter your slide.</li>
+              </ol>
+            </li>
+            <li>Put a header at the top of each slide that succinctly summarizes the topic of that slide.</li>
+            <li>Screen snapshots and program listings: Snapshots and listings are next to useless if the listener cannot
+              make out the graphics or text.</li>
+            <li><strong>Code listings</strong>
+              <ol>
+                <li>Most code listings I see in talks are unreadable. Most presenters seem to recognize this fact
+                  because they usually spend only a few seconds on the slide.</li>
+                <li>Usually you care about only a few lines of the listing so show only those few lines and either use a
+                  bigger font or use a xerox machine or some other tool to increase the font.</li>
+                <li>Usually code listings are ineffective because the listener is unfamiliar with the syntax. Hence the
+                  listener spends precious time trying to decipher your syntax while not listening to you.</li>
+                <li>Bottom line: Unless the code is an integral part of your results skip it in your talk. If you do
+                  include it, then be prepared to spend a somewhat significant amount of time on it so that the listener
+                  has a chance to understand what you are talking about.</li>
+              </ol>
+            </li>
+            <li><strong>Screen snapshots</strong>
+              <ol>
+                <li>Most screen snapshots I see are unreadable because the fonts are too small.</li>
+                <li>Either use a xerox machine or other tool to enlarge the image or edit your code to use bigger fonts
+                  before taking the snapshots. As an example, a student of mine needed to display a snapshot of an event
+                  recorder. The event recorder displayed a list of events in a 12 point font that was easy on a computer
+                  user&#39;s eye but unreadable for an audience. The solution for the talk was to change the font to a
+                  much larger point size and take a screen snapshot. The event recorder displayed many fewer events but
+                  who cared. The audience members only needed to see one event to get the point.</li>
+                <li>Do not let your talk become dominated by screen shots. A live demo with its dynamicism will make
+                  your points much more effectively than a series of static snapshots. As with the snapshots, try to
+                  enlarge the point sizes in your demo.</li>
+              </ol>
+            </li>
+            <li>Use special effects judiciously: Powerpoint makes it possible to fill your presentation with all sorts
+              of &quot;gee whiz&quot; effects. You should resist the temptation to use these effects unless they
+              actually enhance your presentation.<ol>
+                <li><strong>Example:</strong> Having bullets &quot;fly in&quot; is an example of a bad use of special
+                  effects. Other than distracting your listener and breaking his or her concentration, what purpose does
+                  it serve?</li>
+                <li><strong>Example:</strong> Fading in points right before you make them is an example of a bad use of
+                  special effects. You can better justify the fading in of bullets because it is less obtrusive then
+                  flying them in and because it prevents the listener from reading the bullets before you&#39;re ready
+                  to present them. However, if you&#39;ve limited the number of bullets and kept them short and snappy
+                  the listener can quickly assimilate the slide and should already be listening to you. Fading in the
+                  points will distract the listener and break his or her concentration.</li>
+                <li><strong>Example:</strong> Fading in information to show what happens as an algorithm manipulates a
+                  data structure is a good use of special effects. For example, coloring the nodes of a graph as they
+                  are reached in depth first search is an excellent way to show how depth first search spreads through a
+                  graph. In this case, the ability to present new information while maintaining the same underlying
+                  picture maintains the listener&#39;s concentration while moving to another slide will break the
+                  listener&#39;s concentration and make it harder for the listener to see what has changed.</li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+  <h3 id="during-the-presentation">During the Presentation</h3>
+  <ol>
+    <li>You are your own worst critic: Most people are very self-conscious when they give a talk. Fortunately, your
+      audience is usually concentrating so hard on trying to understand what you&#39;re saying that they are not
+      noticing the fact that your voice is shaking, that you are backtracking in your sentences, or that you are saying
+      &quot;uh&quot; a great deal. Hopefully you can relax a bit if you know that your audience is not hanging on your
+      every little imperfection.</li>
+    <li>Do not read your slides: Your listeners are perfectly capable of reading and can do it more quickly than you can
+      recite them. If you&#39;ve kept your bullets short and snappy you won&#39;t be tempted to recite them because
+      there will not be anything to recite. It is okay to periodically recite a point, such as a definition, to drive
+      home a point. Just do not make a habit of it.</li>
+    <li>Bring a glass of water or some other beverage: Drinking during a talk will lubricate your vocal chords and keep
+      you from going hoarse.</li>
+    <li>Keep the presentation moving: Do not get side tracked by irrelevant questions. It is okay to tell a listener
+      that you will be happy to discuss the question after the talk but that you need to move on.<ol>
+        <li>If you are stumped by a question do not try to squirm your way through it. If you&#39;re a good con artist
+          you may be able to fake your way through it but you&#39;re normally talking to an educated audience that will
+          nail you to the wall. It is much better to move on to firmer footing and minimize the issue than it is to make
+          a big deal out of it and firmly implant it in the audience&#39;s mind. For example, if you have not heard of a
+          related piece of research just admit it and move on.</li>
+        <li>If questions during a talk disrupt your flow it is ok to ask the audience to defer their questions until the
+          end of the talk.</li>
+      </ol>
+    </li>
+    <li>Try to keep yourself facing the audience as much as possible. It is not necessary to make eye contact but your
+      voice will carry better and you&#39;ll be more likely to use body language that enhances your presentation.</li>
+  </ol>
+  <hr>
+  <h1 id="20072021-122301">20/07/2021, 12:23:01</h1>
+  <ol>
+    <li>
+      <p><strong>How Estimated Reading Times Increase Engagement With Content</strong><br><strong><em>URL:</em></strong>
+        https://martech.org/estimated-reading-times-increase-engagement/ </p>
+    </li>
+    <li>
+      <p><strong>Decimal to Time Calculator</strong><br><strong><em>URL:</em></strong>
+        https://www.calculatorsoup.com/calculators/time/decimal-to-time-calculator.php </p>
+    </li>
+    <li>
+      <p><strong>Read-o-Meter | Estimate the reading time.</strong><br><strong><em>URL:</em></strong>
+        http://www.niram.org/read/ </p>
+    </li>
+    <li>
+      <p><strong>What is the Average Reading Speed and the Best Rate of
+          Reading?</strong><br><strong><em>URL:</em></strong>
+        https://ezinearticles.com/?What-is-the-Average-Reading-Speed-and-the-Best-Rate-of-Reading?&amp;id=2298503 </p>
+    </li>
+    <li>
+      <p><strong>Convert Words to Time - Talk Time Calculator</strong><br><strong><em>URL:</em></strong>
+        https://wordstotime.com/ </p>
+    </li>
+    <li>
+      <p><strong>Words to Minutes - Word Reading Time Calculator</strong><br><strong><em>URL:</em></strong>
+        https://wordrepeater.com/words-to-minutes.php </p>
+    </li>
+    <li>
+      <p><strong>Average Reading Speed (WPM) by Age and Grade Level</strong><br><strong><em>URL:</em></strong>
+        https://scholarwithin.com/average-reading-speed#adult-average-reading-speed </p>
+    </li>
+    <li>
+      <p><strong>Words to Minutes - Speech and Reading Time Calculator</strong><br><strong><em>URL:</em></strong>
+        https://educat.tools/words-to-minutes </p>
+    </li>
+    <li>
+      <p><strong>How to compute number of syllables in a word in javascript?</strong><br><strong><em>URL:</em></strong>
+        https://stackoverflow.com/questions/5686483/how-to-compute-number-of-syllables-in-a-word-in-javascript#8843915
+      </p>
+    </li>
+    <li>
+      <p><strong>Word Count</strong><br><strong><em>URL:</em></strong> https://wordcount.com/ </p>
+    </li>
+    <li>
+      <p><strong>What Is the Average Reading Speed?</strong><br><strong><em>URL:</em></strong>
+        https://irisreading.com/what-is-the-average-reading-speed/</p>
+    </li>
+  </ol>
+
+  <hr>
+
+  <script>
+    // Reading & Speech - Speed constants
+    const rsBrysbaertSpeech = 183;
+    const rsBrysbaertReadingNF = 238;
+    const rsBrysbaertReadingF = 260;
+    // Speech
+    const rsSlow = 100;
+    const rsAverage = 130;
+    const rsFast = 160;
+    // Reading
+    const rsAdultAvgLow = 200;
+    const rsAdultAvgMedium = 225;
+    const rsAdultAvgHigh = 250;
+    const readingSpeeds = [183, 238, 260, 100, 130, 160, 200, 225, 250];
+
+    // https://stackoverflow.com/questions/4228356/how-to-perform-an-integer-division-and-separately-get-the-remainder-in-javascr
+    function readingTime(wordCount, speedValue = rsBrysbaertReadingNF) {
+
+      // const rsSpeechBrysbaert = 183;
+      // const rsSilentBrysbaert = 238;
+      // const rsSlow = 100;
+      // const rsAverage = 130;
+      // const rsFast = 160;
+      // const rsAdultAvgLow = 200; 
+      // const rsAdultAvgMedium = 225;
+      // const rsAdultAvgHigh = 250;
+      // const readingSpeeds = [100, 130, 160, 200, 225, 250];
+
+      rtNumerator = wordCount;
+      // rtDenominator = readingSpeeds[3];
+      rtDenominator = speedValue;
+      rtMin = Math.trunc(rtNumerator / rtDenominator);
+      rtSec = ((rtNumerator % rtDenominator) / rtDenominator) * 0.60;
+      rtSec = (Math.round(rtSec * 100) / 100) * 100;
+      rtSec = rtSec.toFixed(0);
+      // console.log(rtMin, rtSec);
+      // https://wordcount.com/ | 241 - Words | 1,661 - Characters | 1,401 - Characters without space | 468 - Syllables | 9 - Sentences | 11 - Paragraphs
+      // https://niram.org/read/ | Estimated reading time: 1 minute, 12 seconds. Contains 243 words
+      // https://thereadtime.com/ | Read Time: 1 mins 6 secs | Speech Time: 1 mins 26 secs | Word Count: 263
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
+      // return `${rtMin} Minute(s), ${rtSec} Second(s)`;
+      // return `${rtMin} Min(s), ${rtSec} Sec(s)`;
+      // return `${String(rtMin).padStart(2, ' ')} Min(s), ${String(rtSec).padStart(2, ' ')} Sec(s)`; // ES2017 Update - https://stackoverflow.com/questions/10073699/pad-a-number-with-leading-zeros-in-javascript
+      return `${('  ' + rtMin).slice(-3)} Min(s), ${('  ' + rtSec).slice(-3)} Sec(s)`; // ES2017 Update - https://stackoverflow.com/questions/10073699/pad-a-number-with-leading-zeros-in-javascript
+    }
+
+    function integerDivison(numerator, denominator) {
+      this.Numerator = numerator;
+      this.Denominator = denominator;
+      this.QuotientTrunc = Math.trunc(numerator / denominator);
+      this.QuotientFloor = Math.floor(numerator / denominator);
+      this.Remainder = numerator % denominator;
+      this.Division = numerator / denominator;
+      this.DivisionRemainder = this.Remainder / denominator;
+      this.calculate = () => {
+        return {
+          Numerator: this.Numerator,
+          Denominator: this.Denominator,
+          Division: this.Division,
+          DivisionRemainder: this.DivisionRemainder,
+          QuotientTrunc: this.QuotientTrunc,
+          QuotientFloor: this.QuotientFloor,
+          Remainder: this.Remainder
+        };
+      }
+    }
+
+    function wpm(wordCount, speedValue) {
+      document.getElementById("wpm").innerHTML = "<b>Reading Time:</b> " + readingTime(wordCount, speedValue);
+    }
+
+    function remPunctuations() {
+      var strText = document.getElementById("wordsToCountInput").value;
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
+      // The following three expressions create the same regular expression object:
+      // let re = /ab+c/i; // literal notation
+      // let re = new RegExp('ab+c', 'i') // constructor with string pattern as first argument
+      // let re = new RegExp(/ab+c/, 'i') // constructor with regular expression literal as first argument (Starting with ECMAScript 6)
+      // https://stackoverflow.com/questions/4328500/how-can-i-strip-all-punctuation-from-a-string-in-javascript-using-regex#
+      // var punctuations = /'!"()-[]{};:\,<>.\/#$%^&*_~/g;
+      // https://remarkablemark.org/blog/2019/09/28/javascript-remove-punctuation/
+      // var punctuation = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~';
+      var punctRE = /[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,\-.\/:;<=>?@\[\]^_`{|}~]/g;
+      var spaceRE = /\s+/g;
+      var str = "This, -/ is #! an $ % ^ & * example ;: {} of a = -_ string with `~)() punctuation";
+      str = str.replace(punctRE, '').replace(spaceRE, ' ');
+
+      var reSpecialCase = /[\\\|\/\-\‐\-\−\–\—]/gm;
+      var rePunct = /[^\w\s]/gm;
+      // str = str.replace(rePunct, '');
+
+      // >> "This is an example of a string with punctuation"
+
+      // strText = strText.replace(punctRE, '').replace(spaceRE, ' ');
+      // strText2 = strText.replace(reSpecialCase, ' ').replace(rePunct, '').replace(/[\n\r]/gm, ' ').replace(/\s{1,}/gm,' ');
+      strText2 = strText.replace(reSpecialCase, ' ').replace(rePunct, '').replace(/[\n\r]/gm, ' ').replace(/\s{2,}/gm, ' ').replace(/\s$/gm, '').replace(/^\s/gm, '');
+      var countWords = strText2.split(' ').length;
+      var countCharacters = strText2.split('').length;
+      var countCharactersNoSpace = strText2.replace(/\s/gm, '').split('').length;
+      // document.getElementById("wordCount").value = countWords;
+      var stats = document.getElementById("stats");
+      var strPad = " ".repeat(10);
+      stats.value = "Count\n";
+      stats.value += "=====\n";
+      // (1234567890).toString().replace(/B(?=(d{3})+(?!d))/g, ","); // Thou Sep RegEx Method - https://thewebdev.info/2021/02/12/how-to-format-a-number-with-commas-as-thousands-digit-separators-in-javascript/
+      stats.value += "Words                            : " + (strPad + (countWords).toLocaleString('en')).slice(-10) + "\n";
+      stats.value += "Characters                       : " + (strPad + (countCharacters).toLocaleString('en')).slice(-10) + "\n";
+      stats.value += "Characters No Space              : " + (strPad + (countCharactersNoSpace).toLocaleString('en')).slice(-10) + "\n\n";
+      stats.value += "Speeds\n";
+      stats.value += "======\n";
+      stats.value += "M.Brysbaert\n";
+      stats.value += "===========\n";
+      stats.value += `[ ${rsBrysbaertSpeech} wpm ] - Speech             : ` + readingTime(countWords, rsBrysbaertSpeech) + "\n";
+      stats.value += `[ ${rsBrysbaertReadingNF} wpm ] - Reading Non-Fiction: ` + readingTime(countWords, rsBrysbaertReadingNF) + "\n";
+      stats.value += `[ ${rsBrysbaertReadingF} wpm ] - Reading Fiction    : ` + readingTime(countWords, rsBrysbaertReadingF) + "\n\n";
+      stats.value += "Speech\n";
+      stats.value += "======\n";
+      stats.value += `[ ${rsSlow} wpm ] - Slow               : ` + readingTime(countWords, rsSlow) + "\n";
+      stats.value += `[ ${rsAverage} wpm ] - Average            : ` + readingTime(countWords, rsAverage) + "\n";
+      stats.value += `[ ${rsFast} wpm ] - Fast               : ` + readingTime(countWords, rsFast) + "\n\n";
+      stats.value += "Reading\n";
+      stats.value += "=======\n";
+      stats.value += `[ ${rsAdultAvgLow} wpm ] - Slow               : ` + readingTime(countWords, rsAdultAvgLow) + "\n";
+      stats.value += `[ ${rsAdultAvgMedium} wpm ] - Average            : ` + readingTime(countWords, rsAdultAvgMedium) + "\n";
+      stats.value += `[ ${rsAdultAvgHigh} wpm ] - Fast               : ` + readingTime(countWords, rsAdultAvgHigh);
+
+      document.getElementById("wordsToCountOutput").value = strText2;
+
+      //   const rsBrysbaertSpeech = 183;
+      // const rsBrysbaertReadingNF = 238;
+      // const rsBrysbaertReadingF = 260;
+      // // Speech
+      // const rsSlow = 100;
+      // const rsAverage = 130;
+      // const rsFast = 160;
+      // // Reading
+      // const rsAdultAvgLow = 200;
+      // const rsAdultAvgMedium = 225;
+      // const rsAdultAvgHigh = 250;
+
+      // console.log(countWords, countCharacters, countCharactersNoSpace, strText2);
+    }
+
+    let a = -100.34;
+    let b = 3.57;
+    let x = a / b;
+    let y1 = a / b >> 0;
+    let y2 = ~~(a / b);
+    let y3 = (a / b | 0);
+
+    var remainder = a % b;
+    var value = (a - remainder) / b;
+
+    var divide = new integerDivison(a, b);
+    console.log("Numerator           :", divide.Numerator) //to get Numerator
+    console.log("Denominator         :", divide.Denominator) //to get Denominator
+    console.log("Division            :", divide.Division) //to get Floating division of two value 
+    console.log("Div Remainder       :", divide.DivisionRemainder) //to get Fraction of two value
+    console.log("Quotient Trunc      :", divide.QuotientTrunc) //to get Quotient of two value 
+    console.log("Quotient Floor      :", divide.QuotientFloor) //to get Quotient of two value 
+    console.log("Remainder           :", divide.Remainder) //to get Remainder of two value   
+    console.log("Return Object Values:", divide.calculate()) //to get object containing all the values
+
+    console.log(readingTime(938)); // @200WPM = 4 mins 41 secs
+    console.log(readingTime(474)); // @200WPM = 2 mins 22 secs
+    console.log(readingTime(263)); // @200WPM = 2 mins 22 secs
+
+    // document.getElementById("demo").innerHTML = x + "<br>" + y1 + "<br>" + y2 + "<br>" + y3 + "<br>" + value + "<br>" + remainder;
+    // wpm(document.getElementById('wordCount').value, document.getElementById('speedReadingSpeech').value);
+    document.getElementById('readingNF').innerHTML = document.getElementById('readingNonFiction').value;
+    document.getElementById('readingF').innerHTML = document.getElementById('readingFiction').value;
+
+    (function(){
+      remPunctuations();
+    })();
+
+  </script>
+
+</body>
+
+</html>
