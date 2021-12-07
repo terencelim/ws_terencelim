@@ -37,7 +37,7 @@
         .hrow td {
             padding-top: 20px;
             width: auto;
-            padding: 0.5rem 3rem;
+            padding: 0.5rem 1rem;
         }
 
         table {
@@ -72,21 +72,29 @@
     
     <table class="worldtime">
         <tr class="hrow">
+            <td>Vancouver, Canada</td>
+            <td>San Francisco, USA</td>
+            <td>London, GMT</td>
             <td>Valletta, Malta</td>
             <td>Tallinn, Estonia</td>
             <td>Riyadh, Saudi Arabia</td>
+            <td>Beijing, China</td>
         </tr>
         <tr>
+            <td><span id="Vancouver2"></span></td>
+            <td><span id="SanFrancisco2"></span></td>
+            <td><span id="London2"></span></td>
             <td><span id="Malta"></span></td>
             <td><span id="Tallinn"></span></td>
             <td><span id="Riyadh"></span></td>
+            <td><span id="Beijing2"></span></td>
         </tr>
     </table>
     <br>
     <br>
     <table>
         <tr>
-            <td class="map_icons"><a href="https://www.timeanddate.com/time/map/#!cities=214,242,240,255,224,33,136" target="_blank"  title="Time Zone Map"><img class="map_icon" src="img/emojigraph_org_globe-showing-europe-africa_1f30d.png" alt="Time Zone Map"></a></td>
+            <td class="map_icons"><a href="https://www.timeanddate.com/time/map/#!cities=214,242,240,255,224,33,136,256" target="_blank"  title="Time Zone Map"><img class="map_icon" src="img/emojigraph_org_globe-showing-europe-africa_1f30d.png" alt="Time Zone Map"></a></td>
             <td class="map_icons"><a href="img/standard_timezones_of_the_world.png" target="_blank" title="Standard Time Zones with DST"><img class="map_icon" src="img/emojigraph_org_globe-showing-europe-africa_1f30d.png" alt="Standard Time Zones with DST"></a></td>
             <td class="map_icons"><a href="img/5405d55887909032bc8016afe3f65796.jpg" target="_blank" title="World Map of Local Time Zones with DST"><img class="map_icon" src="img/emojigraph_org_globe-showing-europe-africa_1f30d.png" alt="World Map of Local Time Zones with DST"></a></td>
             <td class="map_icons"><a href="img/world-time_3.webp" target="_blank" title="Worldwide Map of Local Time Zones"><img class="map_icon" src="img/emojigraph_org_globe-showing-europe-africa_1f30d.png" alt="Worldwide Map of Local Time Zones"></a></td>
@@ -329,20 +337,25 @@
 <br>
 <br>
 <script type="text/javascript" language="JavaScript">
-    <!--
+
     function worldClock(zone, region) {
         var dst = 0
         var time = new Date()
         var gmtMS = time.getTime() + (time.getTimezoneOffset() * 60000)
         var gmtTime = new Date(gmtMS)
         var day = gmtTime.getDate()
+        var weekday = gmtTime.getDay()
         var month = gmtTime.getMonth()
         var year = gmtTime.getYear()
         if (year < 1000) {
             year += 1900
         }
-        var monthArray = new Array("January", "February", "March", "April", "May", "June", "July", "August",
-            "September", "October", "November", "December")
+        var monthArrayLong = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
+        var monthArrayShort = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+        var monthArray = monthArrayShort
+        var dayArrayLong = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+        var dayArrayShort = new Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
+        var dayArray = dayArrayShort
         var monthDays = new Array("31", "28", "31", "30", "31", "30", "31", "31", "30", "31", "30", "31")
         if (year % 4 == 0) {
             monthDays = new Array("31", "29", "31", "30", "31", "30", "31", "31", "30", "31", "30", "31")
@@ -362,9 +375,10 @@
         if (hr < 0) {
             hr -= -24
             day -= 1
+            weekday -= 1
         }
         if (hr < 10) {
-            hr = " " + hr
+            hr = "0" + hr
         }
         if (min < 10) {
             min = "0" + min
@@ -594,9 +608,10 @@
             if (hr >= 24) {
                 hr = hr - 24
                 day -= -1
+                weekday -= -1
             }
             if (hr < 10) {
-                hr = " " + hr
+                hr = "0" + hr
             }
             if (day > monthDays[month]) {
                 day = 1
@@ -607,16 +622,18 @@
                     month -= -1
                 }
             }
-            return monthArray[month] + " " + day + ", " + year + "<br>" + hr + ":" + min + ":" + sec + "  [GMT " + (zone + 1) + "]  DST"
+            return dayArray[weekday] + ", " + monthArray[month] + " " + day + ", " + year + "<br>" + hr + ":" + min + ":" + sec + "  [GMT " + (zone + 1) + "]  DST"
         } else {
-            return monthArray[month] + " " + day + ", " + year + "<br>" + hr + ":" + min + ":" + sec + "  [GMT " + zone + "]"
+            return dayArray[weekday] + ", " + monthArray[month] + " " + day + ", " + year + "<br>" + hr + ":" + min + ":" + sec + "  [GMT " + zone + "]"
         }
     }
 
     function worldClockZone() {
         document.getElementById("GMT").innerHTML = worldClock(0, "Greenwich")
         document.getElementById("Vancouver").innerHTML = worldClock(-8, "NAmerica")
+        document.getElementById("Vancouver2").innerHTML = worldClock(-8, "NAmerica")
         document.getElementById("SanFrancisco").innerHTML = worldClock(-8, "NAmerica")
+        document.getElementById("SanFrancisco2").innerHTML = worldClock(-8, "NAmerica")
         document.getElementById("Seattle").innerHTML = worldClock(-8, "NAmerica")
         document.getElementById("LosAngeles").innerHTML = worldClock(-8, "NAmerica")
         document.getElementById("Denver").innerHTML = worldClock(-7, "NAmerica")
@@ -641,6 +658,7 @@
         document.getElementById("Lisbon").innerHTML = worldClock(0, "Europe")
         document.getElementById("Dublin").innerHTML = worldClock(0, "Europe")
         document.getElementById("London").innerHTML = worldClock(0, "Europe")
+        document.getElementById("London2").innerHTML = worldClock(0, "Europe")
         document.getElementById("Madrid").innerHTML = worldClock(1, "Europe")
         document.getElementById("Barcelona").innerHTML = worldClock(1, "Europe")
         document.getElementById("Paris").innerHTML = worldClock(1, "Europe")
@@ -666,6 +684,7 @@
         document.getElementById("Jakarta").innerHTML = worldClock(7, "Jakarta")
         document.getElementById("HongKong").innerHTML = worldClock(8, "HongKong")
         document.getElementById("Beijing").innerHTML = worldClock(8, "Beijing")
+        document.getElementById("Beijing2").innerHTML = worldClock(8, "Beijing")
         document.getElementById("Shanghai").innerHTML = worldClock(8, "Shanghai")
         document.getElementById("Seoul").innerHTML = worldClock(9, "Seoul")
         document.getElementById("Tokyo").innerHTML = worldClock(9, "Tokyo")
@@ -683,7 +702,6 @@
     }
     window.onload = worldClockZone;
     //
-    -->
 </script>
 
 <script>
