@@ -18,5 +18,10 @@
     "title": "Word Counter and Reading/Speaking Speeds", 
     "url": "Calculate-Remainder-Word-Counter.html",
     "description": "Word Counter and Reading/Speaking Speeds"
+  },
+  {
+    "title": "Countdown Timer", 
+    "url": "html5_canvas_clock_v1.2.min.html",
+    "description": "Countdown Timer"
   }
 ]
