@@ -15,6 +15,11 @@
     "description": "World Clock and Timer"
   },
   {
+    "title": "Daylight Savings Time", 
+    "url": "daylight_savings_time.min.html",
+    "description": "Daylight Savings Time"
+  },
+  {
     "title": "Countdown Timer", 
     "url": "html5_canvas_clock_v1.2.min.html",
     "description": "Countdown Timer"
