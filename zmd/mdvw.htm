@@ -21,6 +21,7 @@
     async load() {
       await super.load()
       this.template = STYLES.preset('light') // or STYLES.preset('dark')
+      this.template += `<style>:host { display: block; }</style><link rel="stylesheet" href="path/to/markdown-styles.css" /><link rel="stylesheet" href="path/to/highlight-styles.css" />`
     }
   })
 </script>
